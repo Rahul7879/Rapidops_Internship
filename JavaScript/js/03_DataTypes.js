@@ -14,3 +14,4 @@
 // 1. An array
 // 2. An object
 // 3. A date
+console.log("he")
