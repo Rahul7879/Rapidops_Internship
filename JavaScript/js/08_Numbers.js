@@ -58,6 +58,20 @@ console.log(a.toFixed(10)); // 1.2345600000
 ((0.1 + 0.2).toFixed(1) == 0.3) ? console.log(true) : console.log(false); //false
 (0.1 + 0.2 == 0.3) ? console.log(true) : console.log(false); //false
 
+let user = {
+    name: "aushfdjsd",
+    obj: {
+        a: "ksjf",
+    }
+}
+
+// let admin = user;
+// admin.name = "hh";
+// console.log(user.name);
+
+let admin = object.assign(user);
+admin.name = "hh";
+console.log(user.name);
 
 
 
