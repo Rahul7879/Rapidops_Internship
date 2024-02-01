@@ -155,3 +155,103 @@ arr[3]();
   console.log(newarr.includes(3)); //true
   console.log(newarr.includes(213)); //false
 
+//   find method
+
+let objusers = [
+    {id: 1, name: "John"},
+    {id: 2, name: "Pete"},
+    {id: 3, name: "Mary"}
+  ];
+//   newarr.push(true);
+//   let userr = newarr.find(item => item == 5);
+    let userr = objusers.find(item => item.name == "Mary");
+    console.log(userr); 
+    // if nothing is find then it return undefined;
+    let findIndexmethod = objusers.findIndex(item => item.id == 1);
+    console.log(findIndexmethod); // 0
+    // if we want to from last 
+    objusers.push({
+        id: 2,
+        name: "John"
+    });
+    // let findLastIndexmethod = objusers.findLastIndex(item => item.id == 2);
+    // console.log(findLastIndexmethod); // 0
+    // console.log(objusers);
+
+    // Filter Method
+
+    // Filter methods return array of filtered items  but works same as find method
+
+    // let filteredData = objusers.filter(item => item.id == 2);
+    let filteredData = objusers.filter(function(item,index){
+            return (item.id < 2);
+    });
+
+    // console.log(filteredData);
+
+    // Map Method for changing orinal array values 
+
+    let MappedArray = objusers.map((item)=>item.id*2)
+    // with normal function 
+    // let MappedArray = objusers.map(function(item,index,array){
+    //     console.log("index-",index);
+    //     console.log("array-",array);
+    //     return item.id*2;
+    // })
+
+    console.log(MappedArray);
+
+    // Sort Method 
+
+    // function compareNumeric(a, b) {
+    //     if (a > b) return 1;
+    //     if (a == b) return 0;
+    //     if (a < b) return -1;
+    //   }
+      
+    // Sort and simple code for sorting
+
+      let sortarr = [22, 1, 2, 15 ];
+      sortarr.sort((a,b)=> a-b); // accending
+      console.log(sortarr);
+      sortarr.sort((a,b)=> b-a); // deccending
+      console.log(sortarr);
+
+    //   reverse 
+     
+    sortarr.reverse();
+    console.log(sortarr);
+
+    // split and join 
+
+    let names = 'Bilibo, Gandialf, Nazigul';
+
+ sortarr = names.split(',');
+
+for (let name of sortarr) {
+  console.log( `A message to ${name}.` ); // A message to Bilbo  (and other names)
+}
+console.log(sortarr);
+
+// join for joing values in array
+
+sortarr = sortarr.join('::');
+
+for (let name of sortarr) {
+  console.log( `A message to ${name}.` ); // A message to Bilbo  (and other names)
+}
+console.log(sortarr);
+
+// Reduce Method 
+
+sortarr = [1,2,3,4,5,6];
+
+let sum = sortarr.reduce((sum,cur)=>sum+cur)
+console.log(sum);
+
+
+
+
+    
+  
+

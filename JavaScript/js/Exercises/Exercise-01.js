@@ -21,7 +21,7 @@ for(let i = 0; i<size; i++){
     document.write("<br>") 
 }
 
-// Pattern-3; (incomplete)
+// Pattern-3; 
 
     for(let i = 0; i<size; i++){
         if(i<=size/2){
@@ -60,13 +60,25 @@ for(let i = 0; i<size; i++){
    document.write("<br>")   
 }
 
-// Pattern- 05 (incomplete)
+// Pattern- 05
 
-for(let i = 1; i<=size; i++){
-    for(let j = i; j<=size; j++){
-        document.write(j)  
+for(let i = 0; i<size; i++){
+    for(let j = 0; j<i; j++){
+        document.write('_');
     }
-    document.write("<br>") 
+    for(let j = i+1; j<=size; j++){
+        document.write(`${j}_`);
+    }
+    document.write('<br>')
+}
+for(let i = size-2; i>=0; i--){
+    for(let j = 0; j<i; j++){
+        document.write('_');
+    }
+    for(let j = i+1; j<=size; j++){
+        document.write(`${j}_`);
+    }
+    document.write('<br>')
 }
 
 
