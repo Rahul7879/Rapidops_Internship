@@ -9,7 +9,14 @@
 let arr = [
     {Id:1,Name:"Rahul",Age:22},
     {Id:3,Name:"Deepak",Age:20},
-    {Id:2,Name:"Yash",Age:2}
+    {Id:2,Name:"Yash",Age:2},
+    {Id:4,Name:"Kartik",Age:22},
+    {Id:5,Name:"Rohit",Age:21},
+    {Id:6,Name:"Sonu",Age:2},
+    {Id:7,Name:"Dhey",Age:24},
+    {Id:8,Name:"Mayank",Age:18},
+    {Id:9,Name:"Tony Stark",Age:70},
+    {Id:10,Name:"John",Age:100}
 ]
 function Arrange(key){
     if(key == 'Age'){
@@ -18,9 +25,7 @@ function Arrange(key){
         arr.sort((a,b)=>a[key].localeCompare(b[key]));
     }
 }
-function Ascendig(key){
-    
-}
+
 Arrange("Name");
 console.log(arr);
 Arrange("Age");
