@@ -23,12 +23,13 @@ let calculator = {
       return this.a * this.b;
     },
   
-    read() {
-      this.a,
-      this.b
+    read : ()=> {
+      // this.a,
+      // this.b
+      console.log(this);
     }
   };
   
   calculator.read();
-  console.log( calculator.sum(3,5) );
-  console.log( calculator.mul(2,2) );
+  // console.log( calculator.sum(3,5) );
+  // console.log( calculator.mul(2,2) );
