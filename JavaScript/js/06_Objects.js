@@ -173,7 +173,73 @@ if(user.name === undefined){
 
 
 
+    //   Key Values Entries
 
+    console.log("-----------Key Values Entries-----")
+
+    let userNew = {
+        name: "rahul",
+        middleName: "singh",
+        lastName : "Rajput"
+    }
+
+    console.log(Object.keys(userNew));
+    console.log(Object.values(userNew));
+    console.log(Object.entries(userNew))  // converts object to array 
+    console.log(userNew)
+
+
+  for(let x of Object.entries(userNew)){
+    console.log("value", x);
+  }
+//   also works for keys and values
+
+let prices = {
+    banana: 1,
+    orange: 2,
+    meat: 4,
+  };
+  
+  let doublePrices = Object.fromEntries(
+    // convert prices to array, map each key/value pair into another pair
+    // and then fromEntries gives back the object
+    Object.entries(prices).map(entry => [entry[0], entry[1] * 2])
+  );
+  
+  console.log(doublePrices.meat); // 
+  console.log(prices);
+
+// Tasks 
+
+// 1 Sum the Properties;
+
+let salariees  = {
+    "John": 100,
+    "Pete": 300,
+    "Mary": 250
+  };
+  
+function sumSalaries(salaries){
+    let sum = 0;
+    for(let x of Object.values(salaries)){
+        sum+=x;
+    }
+    return sum;
+}
+  console.log( sumSalaries(salariees) ); 
+
+//   2 Count Propterties
+
+let userObj = {
+    name: 'John',
+    age: 30
+  };
+  
+   function count(user){
+     return Object.keys(user).length;
+   }
+
+  console.log( count(userObj) ); // 2
 
 
     
