@@ -183,3 +183,51 @@ while(start < end){
 
 
   console.log(fromStart+fromLast);
+
+
+  let arr12 = [0,1,1,1,1,1,1,1,0,1];
+  let maxCos = 0;
+  let ans = 0;
+
+  for(let i = 0; i<arr12.length; i++){
+    if(arr12[i] == 0){
+        let j = i-1;
+        let leftCount = 0;
+        let rightCount = 0;
+        while(j>=0 && arr12[j] != 0){
+            leftCount++;
+            j--;
+        }
+        j = i+1;
+        while(j<arr12.length && arr12[j] != 0){
+            rightCount++;
+            j++;
+        }
+
+        if(maxCos < leftCount+rightCount){
+            maxCos = leftCount+rightCount;
+            ans = i;
+        }
+    }
+  }
+  console.log(ans);
+//   arr12 = [1,2 , 3 , 4, 5, 6 ,7 ];
+// //   let prevLen = arr12.length;
+//   arr12.splice(3,0,arr12[4]);
+//  console.log(  arr12.splice(5,1) ); 
+// //   arr12.length = prevLen;
+// console.log(  arr12.shift() );
+//   console.log(arr12);
+
+// question 2
+
+let arr13 = [2,3,4,5,6,7];
+let newArr13 = [];
+while(arr13.length > 1){
+    newArr13 = [];
+    for(let i = 0; i<arr13.length-1; i++){
+        newArr13.push(arr13[i]+arr13[i+1]);
+    }
+    arr13 = newArr13;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+}
+console.log(arr13);
