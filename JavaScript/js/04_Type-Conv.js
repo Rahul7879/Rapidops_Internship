@@ -3,6 +3,8 @@ console.log("8"*"3"); // 24
 console.log("8"/"2"); // 4
 console.log("8"+"3"); // 83 // different only in addtion
 
+
+
 console.log( Number("   123   ") ); // 123
 console.log( Number("123z") );      // NaN (error reading a number at "z")
 console.log( Number(true) );        // 1
@@ -24,7 +26,7 @@ console.log( Boolean("hello") ); // true
 console.log( Boolean("") ); // false
 console.log( Boolean("0") ); // true **********
 
-console.log('1' + 2 + 2); // "122" and not "14"
+console.log("1" + 2 - 2); // "122" and not "14"
 
 console.log(false+true);
 
@@ -45,7 +47,7 @@ console.log(" \t \n" - 2)
 
 let i = 3;
 while(i){
-    console.log(--i);
+    console.log(i--);
 }
 
 // mutiple ternary operator

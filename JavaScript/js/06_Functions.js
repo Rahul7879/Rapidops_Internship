@@ -48,4 +48,6 @@
 // let sayHi = () => alert("Hello");
 
 // with a single argument
-// let double = n => n * 2;
+let double = (n,b) => n * 2;
+
+

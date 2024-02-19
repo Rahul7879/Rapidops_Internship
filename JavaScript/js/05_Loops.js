@@ -5,15 +5,15 @@
 
 // let i = 0; // we have i already declared and assigned
 
-// for (; i < 3; i++) { // no need for "begin"
+// for ( ;i < 3; i++) { // no need for "begin"
 //   console.log( i ); // 0, 1, 2
 // }
 // We can also remove the step part:
 
 
 
-// for (; i < 3;) {
-//     console.log( i++ );
+// for (; i < 3; ) {
+//     console.log( i );
 // }
 
 
@@ -29,18 +29,18 @@
 
 // tasks
 
-// let i = 4;
+//  i = 4;
 
 // while(i){
 //     console.log(i--);
 // }
 // last value will be 1
 
-// let i = 0;
-// while (++i < 5) console.log( i ); // 1,2,3,4
+let i = 0;
+while (++i < 5) console.log( i ); 
 
 // let i = 0;
-// while (i++ < 5) console.log( i ); // 1,2,3,4,5
+// while (i++ < 5) console.log( i ); 
 
 // for (let i = 2; i <= 10; i++) {
 //     if (i % 2 == 0) {

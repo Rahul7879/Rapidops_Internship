@@ -222,12 +222,45 @@ while(start < end){
 // question 2
 
 let arr13 = [2,3,4,5,6,7];
-let newArr13 = [];
 while(arr13.length > 1){
-    newArr13 = [];
+    let newArr13 = [];
     for(let i = 0; i<arr13.length-1; i++){
         newArr13.push(arr13[i]+arr13[i+1]);
     }
     arr13 = newArr13;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 }
 console.log(arr13);
+
+
+let arr15 = [1,1,1,1,1,1,0,1,0,1,0,1,1,1,1,0,1,1];
+let maxVal = 0;
+let prevCount = 0;
+let nextCount = 0;
+let ind = 0;
+for(let i = 0; i<arr15.length; i++){
+    if(arr15[i] == 0){
+        let ans = i;
+        prevCount = nextCount;
+        nextCount = 0;
+        while(arr15[i+1] != 0 && i<arr15.length){
+            i++;
+            nextCount++;
+        }
+        if(maxVal < prevCount+nextCount){
+            maxVal = prevCount+nextCount;
+            ind = ans;
+        }
+        prevCount = nextCount;
+    }else{
+        prevCount++;
+    }
+}
+console.log(ind);
+
+
+if(true){
+    function hello(){
+        console.log("heall");
+    }
+}
+hello();

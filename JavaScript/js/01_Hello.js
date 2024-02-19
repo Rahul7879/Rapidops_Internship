@@ -1,4 +1,10 @@
 "use strict"
-x=10;
-console.log(x)
+let x = 10;
 
+
+function fun(val){
+ let x = 30;
+ console.log(x);
+}
+fun(x);
+console.log(x)

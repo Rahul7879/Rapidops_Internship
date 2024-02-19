@@ -245,3 +245,13 @@ let userObj = {
     
 
 
+  // let objnew = {};
+  let objnew = new Object();
+
+  objnew.name = "Rahul";
+  let l = "Last Name"
+  objnew[`${l}`] = "Rajput";
+  let copy = Object.assign({},objnew);
+  copy.age = 22;
+  console.log(copy);
+  console.log(objnew);
