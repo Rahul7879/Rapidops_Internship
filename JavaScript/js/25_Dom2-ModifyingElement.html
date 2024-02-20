@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifying Element Dom</title>
+</head>
+<body>
+    
+    <div class="div1">
+           <h1>Welcom to Dom Modification</h1>
+           <p>lets begin</p>
+    </div>
+   
+    <ol id="elem">
+      <li>Hello</li>
+      <li>World</li>
+    </ol>
+    <div id="container"></div>
+
+    <!-- task-6 Insert the code task -->
+
+    <ul id="ul">
+      <li id="one">1</li>
+      <li id="two">4</li>
+    </ul>
+
+    <!-- Task-10 Sort The Table -->
+
+    <table id="table">
+      <thead>
+        <tr>
+          <th>Name</th><th>Surname</th><th>Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John</td><td>Smith</td><td>10</td>
+        </tr>
+        <tr>
+          <td>Pete</td><td>Brown</td><td>15</td>
+        </tr>
+        <tr>
+          <td>Ann</td><td>Lee</td><td>5</td>
+        </tr>
+        <tr>
+          <td>...</td><td>...</td><td>...</td>
+        </tr>
+      </tbody>
+      </table>
+
+    <style>
+        .alert {
+          padding: 15px;
+          border: 1px solid #d6e9c6;
+          border-radius: 4px;
+          color: #3c763d;
+          background-color: #dff0d8;
+        }
+        </style>
+        
+       
+     <script>
+     
+    //  creating a tags 
+    let newDiv = document.createElement('div');
+    // creates a node 
+    let textnode = document.createTextNode("Txt Node")
+    // console.log(textnode)
+    let para = document.createElement('p');
+     para.innerHTML = "<strong>Hi there!</strong> You've read an important message.";
+    newDiv.append(para);
+    
+        // add style (class or id)
+        // newDiv.id = "alert"
+        newDiv.className = "alert";
+
+      // some adding methods 
+
+//         node.append(...nodes or strings) – append nodes or strings at the end of node,
+// node.prepend(...nodes or strings) – insert nodes or strings at the beginning of node,
+// node.before(...nodes or strings) –- insert nodes or strings before node,
+// node.after(...nodes or strings) –- insert nodes or strings after node,
+// node.replaceWith(...nodes or strings) –- replaces node with the given nodes or strings.
+
+        document.body.append(newDiv);
+
+        document.body.prepend("i am prepended");
+        let h1 = document.createElement('h1').innerHTML = "i added before"
+        // document.body.div.firstElementChild.before(h1)
+
+    console.log(document.body.firstElementChild);
+
+
+    // tasks
+
+    // 2.  Clear the element
+
+    let elem = document.getElementById("elem")
+
+    function clear(elem) { 
+          elem.innerHTML = "";
+    }
+
+clear(elem.firstElementChild);
+
+// 4 .Create a list
+
+// let u_list = document.createElement("ul");
+// let listItem;
+// do{
+//   listItem = prompt("Enter List Content");
+//   let list = document.createElement("li");
+//   list.innerHTML = listItem;
+//   if(listItem !== "" && listItem !== null){
+//     u_list.append(list);
+//   }
+// }while(listItem !== "" && listItem !== null)
+
+// document.body.append(u_list)
+
+
+// 5. Create a tree from the object
+
+
+let data = {
+  "Fish": {
+    "trout": {},
+    "salmon": {}
+  },
+
+  "Tree": {
+    "Huge": {
+      "sequoia": {},
+      "oak": {}
+    },
+    "Flowering": {
+      "apple tree": {},
+      "magnolia": {}
+    }
+  }
+};
+
+let unorderedList = document.createElement("ul");
+
+// function createTree(obj){
+//   let tempUl = document.createElement("ul");
+//   for (const key in obj) {
+//       let li = document.createElement("li");
+//       li.innerHTML = key;
+//       if(Object.keys(obj[key].length > 0)){
+//         createTree(obj[key])
+//       }
+//       tempUl.append(li);
+//       document.body.append(tempUl);
+//   }
+
+// }
+// createTree(data);
+
+function createTree(container, obj) {
+      container.append(createTreeDom(obj));
+    }
+
+    function createTreeDom(obj) {
+      if (!Object.keys(obj).length) return;
+      let ul = document.createElement('ul');
+      for (let key in obj) {
+        let li = document.createElement('li');
+        li.innerHTML = key;
+        let childrenUl = createTreeDom(obj[key]);
+        if (childrenUl) {
+          li.append(childrenUl);
+        }
+
+        ul.append(li);
+      }
+
+      return ul;
+    }
+
+    let container = document.getElementById('container');
+    createTree(container, data);
+
+
+    // task 6 Insert The Code
+
+    let InsertUl = document.getElementById("ul").firstElementChild;
+
+     InsertUl.insertAdjacentHTML('afterend', '<li>3</li>')
+     InsertUl.insertAdjacentHTML('afterend', '<li>2</li>')
+
+
+    //  task - 10
+
+    let allElements = document.getElementsByTagName("tr");
+    let arrEl = Array.from(allElements);
+
+    console.log(arrEl)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
+     </script>
+
+
+</body>
+</html>

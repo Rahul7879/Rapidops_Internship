@@ -103,3 +103,9 @@ list2.style.backgroundColor = "blue"
 window["list-1"].style.backgroundColor = "yellow";
 
 // but all are not preferrable 
+
+// task 
+
+let attr = document.querySelector("#task-2");
+console.log(attr.getAttribute("data-widget-name"))
+console.log(attr.data)
