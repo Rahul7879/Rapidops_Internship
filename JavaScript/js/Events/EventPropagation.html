@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Propagation</title>
+</head>
+<body>
+    
+    <div id="grandparent">
+        <div id="parent">
+            <div id="child"></div>
+        </div>
+    </div>
+    
+    <style>
+        div{
+            border: 2px solid black;
+            padding: 100px;
+        }
+    </style>
+
+    <script>
+      
+    //   event bubling
+    
+    parent.onclick = ()=> console.log("parent");
+    grandparent.onclick = ()=>console.log("grand Parent");
+    child.onclick= ()=> console.log("child");
+
+    // let grandparent = document.getElementById("grandparent");
+    // let parent = document.getElementById("parent");
+    // let child = document.getElementById("child");
+
+    // grandparent.addEventListener("click", ()=>{
+    //     console.log("grandparent")
+    // })
+    // parent.addEventListener("click", ()=>{
+    //     console.log("parent")
+    // })
+    // child.addEventListener("click", ()=>{
+    //     console.log("child")
+    // })
+
+
+    
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction of Events</title>
+</head>
+<body>
+     <p id='p'>para</p>
+    <button onclick="(function hello(){
+        console.log('hello')
+    })()">Click</button>
+
+<input ONclick="(function hello(){
+    console.log('blur')
+})()">
+   
+
+  <h1>Tasks </h1>
+  <p>task-01</p>
+
+  <div id="task1_id">
+    <p>Text</p>
+  </div>
+
+  <p>task-02</p>
+
+  <button id="hideMe" onclick="this.style.display = 'none'">Hide ME</button>
+
+  <p>task-05</p>
+
+  <div class="task6">
+        <h3 id="sweeti"><span id="icon"> &#8609; </span> Sweeties (click!me)</h3>
+    </div>
+    <ul id="task6_Ul">
+        <li>Cake</li>
+        <li>Honey</li>
+        <li>Donut</li>
+    </ul>
+
+  </div>
+   
+
+
+
+
+    <script>
+       var hello=()=>{
+            console.log("h");
+        }
+
+        let elem = document.getElementById("p")
+        elem.addEventListener("click", hello)
+        elem.removeEventListener("click", hello)
+
+
+        // Task-01  Hide ON Click
+        task1_id.addEventListener("click",()=>{
+            // task1_id.remove();  // removes div also
+            task1_id.innerHTML = "";
+        })
+
+        // task-05 Hide 
+       let flag = true;
+        sweeti.addEventListener('click',()=>{
+            if(flag){
+                let ulist = document.getElementById("task6_Ul");
+                ulist.style.display = "none";
+                icon.innerHTML = "&#8608;"
+                flag = false;
+            }else{
+                let ulist = document.getElementById("task6_Ul");
+                ulist.style.display = "block";
+                icon.innerHTML = "&#8609;"
+                flag = true;
+            }
+        })
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
