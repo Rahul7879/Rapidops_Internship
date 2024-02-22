@@ -18,12 +18,19 @@
     </ol>
     <div id="container"></div>
 
-    <!-- task-6 Insert the code task -->
+    <!-- task-8 Insert the code task -->
 
     <ul id="ul">
       <li id="one">1</li>
       <li id="two">4</li>
     </ul>
+
+    <h3>Task -07</h3>
+
+    <h1><span class="hour">12</span>PM <span class="min">60</span> <span class="sec">60</span></h1>
+    <button onclick="updateDate()" >start</button>
+    <button onclick="stopTimer()" >stop</button>
+
 
     <!-- Task-10 Sort The Table -->
 
@@ -48,6 +55,13 @@
         </tr>
       </tbody>
       </table>
+
+      <h1>task -06 </h1>
+
+      <div class="calender">
+
+
+      </div>
 
     <style>
         .alert {
@@ -190,13 +204,44 @@ function createTree(container, obj) {
      InsertUl.insertAdjacentHTML('afterend', '<li>3</li>')
      InsertUl.insertAdjacentHTML('afterend', '<li>2</li>')
 
+    //  task-8  Clock
+    let interval;
+    function updateDate(){
+     interval = setInterval(()=>{
+      let date = new Date();
+      let hour = document.getElementsByClassName("hour")[0];
+      hour.innerHTML = date.getHours();
+      let min = document.getElementsByClassName("min")[0];
+      min.innerHTML = date.getMinutes();
+      let sec = document.getElementsByClassName("sec")[0];
+      sec.innerHTML = date.getSeconds();
+    },1000)
+    }
+
+    function stopTimer(){
+      clearInterval(interval);
+    }
+
+
+    
+    
+
 
     //  task - 10
 
-    let allElements = document.getElementsByTagName("tr");
-    let arrEl = Array.from(allElements);
+    let allElements = document.getElementsByTagName("td");
 
-    console.log(arrEl)
+    let sortedRows = Array.from(table.tBodies[0].rows) // 1
+  .sort((rowA, rowB) => rowA.cells[0].innerHTML.localeCompare(rowB.cells[0].innerHTML));
+
+table.tBodies[0].append(...sortedRows); // (3
+
+    console.log(allElements[0])
+
+
+    // task -06 
+
+   
 
 
 

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Deligation</title>
+</head>
+<body>
+    <style>
+        #tr{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        .nw{
+            border: 2px solid black;
+            margin: 10px;
+            padding: 10px;
+        }
+        .red{
+            background-color: red;
+        }
+    </style>
+    <table>
+        <tr>
+          <th colspan="3"><em>Bagua</em> Chart: Direction, Element, Color, Meaning</th>
+        </tr>
+        <tr id="tr">
+          <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+          <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+          <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+          <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+          <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+          <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+          <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+          <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+          <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+
+        </tr>
+
+        <h1>Behavior Counter</h1>
+
+        <div class="behavior">
+            <h1>Counter-01 - <input  type="button" value="1" data-counterr=""></h1>
+            <h1>Counter-02 - <input  type="button" value="2" data-counterr=""></h1>
+            <!-- <h1>Counter-03 - <input  type="button" value="2"data-counterr="undefined" ></h1> -->
+
+        </div>
+
+        <h1>Tasks </h1>
+
+        <p>task-01 == Hide messages with delegation</p>
+
+        <div id="task_1">
+            <ul>
+                 <li class="li1">Rahul <button class="b">X</button></li>
+                 <li class="li2">Aditya <button class="b">X</button></li>
+                 <li class="li3">Deepak <button class="b">X</button></li>
+            </ul>
+        </div>
+        
+
+        <p>task -02 Tree menu</p>
+
+        <div id="task_2">
+            <ul class="tree" id="tree">
+                <li>Animals
+                  <ul>
+                    <li>Mammals
+                      <ul>
+                        <li>Cows</li>
+                        <li>Donkeys</li>
+                        <li>Dogs</li>
+                        <li>Tigers</li>
+                      </ul>
+                    </li>
+                    <li>Other
+                      <ul>
+                        <li>Snakes</li>
+                        <li>Birds</li>
+                        <li>Lizards</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>Fishes
+                  <ul>
+                    <li>Aquarium
+                      <ul>
+                        <li>Guppy</li>
+                        <li>Angelfish</li>
+                      </ul>
+                    </li>
+                    <li>Sea
+                      <ul>
+                        <li>Sea trout</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+        </div>
+
+         
+
+
+        <script>
+            let selected;
+            tr.onclick = (event)=>{
+                if(selected){
+                    selected.classList.remove("red")
+                }
+                event.target.classList.add("red");
+              selected=  event.target   
+            }
+
+            let behavior = document.getElementsByClassName("behavior")[0];
+            behavior.addEventListener("click", (event)=>{
+               if(event.target.dataset.counterr != undefined){
+                event.target.value++;
+                console.log(event);
+               }
+            })
+
+
+            // task-1 
+           
+            task_1.addEventListener("click", (event)=>{
+                console.dir(event.target)
+           if(event.target.tagName == "BUTTON"){
+            event.target.parentElement.remove();
+                // console.log();
+            //    event.target.remove();
+           }
+            })
+
+            // task-2 
+
+            tree.addEventListener("click", (e)=>{
+                if( e.target.firstElementChild.tagName == "UL"){
+                    let ele = e.target.firstElementChild;
+                    if(ele.style.display == "none"){
+                        ele.style.display = "block";
+                        return;
+                    }
+                    ele.style.display = "none"
+                    console.log(ele);
+                }
+                
+            })
+        
+        </script>
+
+      </table>
+</body>
+</html>

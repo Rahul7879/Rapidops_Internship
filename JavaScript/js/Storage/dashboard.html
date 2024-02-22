@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard</title>
+</head>
+<body>
+    <style>
+        .color-btn{
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            margin-top: 10rem;
+        }
+        #green{
+            background-color: green;
+            padding: 10px 20px;
+            margin: 20px;
+        }
+        #black{
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            margin: 20px;
+        }
+        #yellow{
+            background-color: yellow;
+            padding: 10px 20px;
+            margin: 20px;
+        }
+        .logout{
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+        }
+        .logout button{
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+
+        }
+    </style>
+    <div class="color-btn">
+        <button id="green" onclick="fun(id)">Green</button>
+        <button id="black" onclick="fun(this.id)">Black</button>
+        <button id="yellow" onclick="fun(this.id)">Yellow</button>
+    </div>
+
+<div class="logout">
+    <button id="Logout" onclick="localStorage.clear()">Logout</button>
+</div>
+
+    <script>
+        if(localStorage.getItem("name") == null){
+            document.location.href = "./task1.html";
+        }
+        function fun(id){
+            document.body.style.backgroundColor = id;
+            sessionStorage.setItem("bgColor",id);
+
+        }
+         let curBg = sessionStorage.getItem("bgColor");
+        document.body.style.backgroundColor = curBg;
+    </script>
+</body>
+</html>

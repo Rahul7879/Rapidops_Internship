@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storage task -01 </title>
+</head>
+<body>
+    <style>
+   
+        .task{
+            justify-content: center;
+        }
+        .main{
+            align-items: center;
+            justify-content: center;
+            width: 50%;
+            margin: auto; 
+        }
+        input{
+            height: 30px;
+            border-radius: 5px;
+        }
+        button{
+            background-color: aquamarine;
+            color: black;;
+            padding: 20px;
+            margin: 30px;
+            border-radius: 20px;
+        }
+    </style>
+    <div class="task">
+       <div class="main">
+        <h2>Name</h2>
+        <input type="text" placeholder="Enter Name">
+        <h2>Password</h2>
+        <input type="password" placeholder="Enter Password">
+        <br>
+        <button onclick="getData()">Login</button>
+    </div>
+    </div>
+
+    <script>
+        if(localStorage.getItem("name")){
+            window.location.href = "./dashboard.html"
+        }
+          function getData(){
+            let id = document.querySelector("input").value;
+            localStorage.setItem("name",id);
+            window.location.href = "./dashboard.html"
+          }
+    </script>
+
+</body>
+</html>

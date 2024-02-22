@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms</title>
+</head>
+<body>
+  <form name="form1" action="google.com">
+
+    <input type="text" placeholder="Name">
+    <input type="text" placeholder="surName">
+    <button type="submit">Submit</button>
+
+  </form> 
+  
+  <form name="form2" action="uber.com">
+
+    <input type="text" placeholder="Name">
+    <input type="text" placeholder="surName">
+    <button type="submit">Submit</button>
+
+  </form> 
+  
+  <form name="form3">
+    <fieldset name="userFields">
+        <legend>info</legend>
+        <input name="login" type="text">
+      </fieldset>
+  </form>
+
+  <script>
+    console.log(document.forms.form1)
+  </script>
+</body>
+</html>

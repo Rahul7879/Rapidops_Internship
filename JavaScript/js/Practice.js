@@ -71,7 +71,7 @@ let obj = {
     name: "Rahul",
     surname: "Rajput",
 }
-let newObj = {...obj};
+let newObj = { ...obj };
 // let newObj = JSON.parse(JSON.stringify(obj))
 // let newObj = Object.assign({},obj)
 
@@ -80,7 +80,7 @@ newObj.name = "Annu"
 console.log(obj.name);
 console.log(newObj.name);
 
-let arr = [1,2,3,4,5,6,7];
+let arr = [1, 2, 3, 4, 5, 6, 7];
 
 let newArr = [...arr];
 newArr[0] = 11;
@@ -125,14 +125,14 @@ fun();
 
 let str = "My name is Rahul Singh Rajput";
 let obj1 = {};
-for(let s of str){
-    obj1[s] = (obj1[s] || 0)+1;
-  }
+for (let s of str) {
+    obj1[s] = (obj1[s] || 0) + 1;
+}
 
-  console.log(obj1);
+console.log(obj1);
 
-  let mystr = "hello Javascript";
-  let tempStr = "";
+let mystr = "hello Javascript";
+let tempStr = "";
 
 //   for(let ch of mystr){
 //     if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u'){
@@ -150,67 +150,67 @@ for(let s of str){
 //     }
 //   }
 let start = 0;
-let end = mystr.length-1;
+let end = mystr.length - 1;
 let fromStart = "";
 let fromLast = "";
 
 
-function isVowel(ch){
-    if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u'){
-             return true;
+function isVowel(ch) {
+    if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+        return true;
     }
-            return false;
-    }
+    return false;
+}
 
-while(start < end){
-    if(mystr)
-    if(isVowel(mystr[start] && isVowel(mystr[end]))){
-        fromLast+=mystr[start];
-        fromStart+=mystr[end];
-    }else if(isVowel(mystr[start])){
-        fromLast+=mystr[end];
-        end--;
-    }else if(isVowel(mystr[end])){
-        fromStart+=mystr[start];
-        start++;
-    }else{
-        fromLast+=mystr[start];
-        start++;
-        fromStart+=mystr[end]
-        end--;
-    }
+while (start < end) {
+    if (mystr)
+        if (isVowel(mystr[start] && isVowel(mystr[end]))) {
+            fromLast += mystr[start];
+            fromStart += mystr[end];
+        } else if (isVowel(mystr[start])) {
+            fromLast += mystr[end];
+            end--;
+        } else if (isVowel(mystr[end])) {
+            fromStart += mystr[start];
+            start++;
+        } else {
+            fromLast += mystr[start];
+            start++;
+            fromStart += mystr[end]
+            end--;
+        }
 }
 
 
-  console.log(fromStart+fromLast);
+console.log(fromStart + fromLast);
 
 
-  let arr12 = [0,1,1,1,1,1,1,1,0,1];
-  let maxCos = 0;
-  let ans = 0;
+let arr12 = [0, 1, 1, 1, 1, 1, 1, 1, 0, 1];
+let maxCos = 0;
+let ans = 0;
 
-  for(let i = 0; i<arr12.length; i++){
-    if(arr12[i] == 0){
-        let j = i-1;
+for (let i = 0; i < arr12.length; i++) {
+    if (arr12[i] == 0) {
+        let j = i - 1;
         let leftCount = 0;
         let rightCount = 0;
-        while(j>=0 && arr12[j] != 0){
+        while (j >= 0 && arr12[j] != 0) {
             leftCount++;
             j--;
         }
-        j = i+1;
-        while(j<arr12.length && arr12[j] != 0){
+        j = i + 1;
+        while (j < arr12.length && arr12[j] != 0) {
             rightCount++;
             j++;
         }
 
-        if(maxCos < leftCount+rightCount){
-            maxCos = leftCount+rightCount;
+        if (maxCos < leftCount + rightCount) {
+            maxCos = leftCount + rightCount;
             ans = i;
         }
     }
-  }
-  console.log(ans);
+}
+console.log(ans);
 //   arr12 = [1,2 , 3 , 4, 5, 6 ,7 ];
 // //   let prevLen = arr12.length;
 //   arr12.splice(3,0,arr12[4]);
@@ -221,46 +221,78 @@ while(start < end){
 
 // question 2
 
-let arr13 = [2,3,4,5,6,7];
-while(arr13.length > 1){
+let arr13 = [2, 3, 4, 5, 6, 7];
+while (arr13.length > 1) {
     let newArr13 = [];
-    for(let i = 0; i<arr13.length-1; i++){
-        newArr13.push(arr13[i]+arr13[i+1]);
+    for (let i = 0; i < arr13.length - 1; i++) {
+        newArr13.push(arr13[i] + arr13[i + 1]);
     }
-    arr13 = newArr13;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+    arr13 = newArr13;
 }
 console.log(arr13);
 
 
-let arr15 = [1,1,1,1,1,1,0,1,0,1,0,1,1,1,1,0,1,1];
+let arr15 = [1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1];
 let maxVal = 0;
 let prevCount = 0;
 let nextCount = 0;
 let ind = 0;
-for(let i = 0; i<arr15.length; i++){
-    if(arr15[i] == 0){
+for (let i = 0; i < arr15.length; i++) {
+    if (arr15[i] == 0) {
         let ans = i;
         prevCount = nextCount;
         nextCount = 0;
-        while(arr15[i+1] != 0 && i<arr15.length){
+        while (arr15[i + 1] != 0 && i < arr15.length) {
             i++;
             nextCount++;
         }
-        if(maxVal < prevCount+nextCount){
-            maxVal = prevCount+nextCount;
+        if (maxVal < prevCount + nextCount) {
+            maxVal = prevCount + nextCount;
             ind = ans;
         }
         prevCount = nextCount;
-    }else{
+    } else {
         prevCount++;
     }
 }
 console.log(ind);
 
 
-if(true){
-    function hello(){
+if (true) {
+    function hello() {
         console.log("heall");
     }
 }
 hello();
+
+
+// function b(){
+//     let c = 10;
+//     return function(x){
+//         console.log(c+x)
+//     }
+// }
+// function a(b){
+//     let a = 10;
+//     b(a);
+// }
+// a(b());
+
+function a(x) {
+    return function b(y) {
+        return x + y;
+    }
+}
+const b = a(5);
+const c = b(3)
+console.log(b(3), c)
+
+let vdo = {
+    title: 'javascript',
+    play: () => {
+        this.title = 'java'
+        console.log(this.title)
+    }
+}
+vdo.play();
+console.log(this.title);
