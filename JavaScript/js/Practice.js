@@ -296,3 +296,10 @@ let vdo = {
 }
 vdo.play();
 console.log(this.title);
+
+
+let arr20 = [3,4,1,-11,5,6,7];
+arr20.sort(function(a,b){return a-b});
+console.log(arr20);
+arr20.sort(function(a,b){return b-a});
+console.log(arr20);
