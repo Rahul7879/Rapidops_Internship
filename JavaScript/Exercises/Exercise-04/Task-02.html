@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task-02</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="input-field">
+            <input type="text" id="firstName">
+            <input type="text" id="lastName">
+            <button id="addBtn" onclick="Add()">Add</button>
+            <button id="updateBtn" style="display:none;">Update</button>
+        </div>
+        <div class="data">
+        </div>
+    </div>
+
+    <script>
+        let data = [];
+        let currentEditingId = null;
+
+        function Render() {
+            document.getElementsByClassName("data")[0].innerHTML = "";
+            data.forEach((user) => {
+                let dataContainer = document.createElement("div");
+                let first = document.createElement("p");
+                let second = document.createElement("p");
+                let edit = document.createElement("button");
+                let dele = document.createElement("button");
+                first.innerHTML = user.firstName;
+                second.innerHTML = user.lastName;
+                edit.innerHTML = "Edit";
+                dele.innerHTML = "Delete";
+                edit.onclick = function () { editUser(user.id); };
+                dele.onclick = function () { deleteUser(user.id); };
+                dataContainer.className = "row";
+                dataContainer.append(first, second, edit, dele);
+                document.getElementsByClassName("data")[0].append(dataContainer);
+            });
+        }
+
+        let firstName = document.getElementById("firstName");
+        let lastName = document.getElementById("lastName");
+
+        function Add() {
+            if (firstName.value === "" || lastName.value === "" || lastName.value.includes(" ") || firstName.value.includes(" ")) {
+                alert("Invalid Data")
+                return;
+            }
+            let newObj = {
+                id: Date.now(),
+                firstName: firstName.value,
+                lastName: lastName.value,
+            };
+            data.push(newObj);
+            firstName.value = "";
+            lastName.value = "";
+            Render();
+        }
+
+        function editUser(id) {
+            const user = data.find(u => u.id === id);
+            firstName.value = user.firstName;
+            lastName.value = user.lastName;
+            document.getElementById("updateBtn").style.display = 'block';
+            currentEditingId = id;
+        }
+
+        function deleteUser(id) {
+            data = data.filter(user => user.id !== id);
+            Render();
+        }
+
+        document.getElementById("updateBtn").addEventListener("click", function () {
+            if (currentEditingId !== null) {
+                const user = data.find(u => u.id === currentEditingId);
+                user.firstName = firstName.value;
+                user.lastName = lastName.value;
+                firstName.value = "";
+                lastName.value = "";
+                this.style.display = 'none';
+                currentEditingId = null;
+                Render();
+            }
+        });
+    </script>
+
+    <!-- Style  -->
+
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .input-field {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-field button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        #addBtn {
+            background-color: transparent;
+            color: blueviolet;
+            border: 1px solid blueviolet;
+        }
+
+        #updateBtn {
+            background-color: transparent;
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+
+        .input-field button:hover {
+            opacity: 0.8;
+        }
+
+        .data {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+        }
+
+        .row p {
+            margin: 0 20px;
+            padding: 5px 20px;
+            flex: 1;
+            text-align: left;
+            width: max-content;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            transition: box-shadow 0.3s;
+        }
+
+        .row button {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .row button:nth-last-child(2) {
+            background-color: green;
+            color: white;
+        }
+
+        .row button:last-child {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</body>
+
+</html>
