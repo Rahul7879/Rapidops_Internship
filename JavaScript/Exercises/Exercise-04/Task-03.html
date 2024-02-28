@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task-02</title>
+    <title>Task-03</title>
 </head>
 
 <body>
@@ -14,6 +14,7 @@
             <input type="text" id="lastName">
             <button id="addBtn" onclick="Add()">Add</button>
             <button id="updateBtn" style="display:none;">Update</button>
+            <button id="renderBtn" onclick="renderDataAppend()">Render Data</button>
         </div>
         <div class="data">
         </div>
@@ -22,6 +23,37 @@
     <script>
         let data = [];
         let currentEditingId = null;
+
+        let renderData = [
+            { "firstName": "Aarav", "lastName": "Kumar" },
+            { "firstName": "Vivaan", "lastName": "Mehta" },
+            { "firstName": "Aditi", "lastName": "Sharma" },
+            { "firstName": "Saanvi", "lastName": "Patel" },
+            { "firstName": "Rohan", "lastName": "Singh" },
+            { "firstName": "Ishaan", "lastName": "Roy" },
+            { "firstName": "Anika", "lastName": "Gupta" },
+            { "firstName": "Riya", "lastName": "Chopra" },
+            { "firstName": "Arjun", "lastName": "Mishra" },
+            { "firstName": "Priya", "lastName": "Jain" }
+        ]
+
+        function renderDataAppend() {
+            let count = 0;
+            renderData.forEach((user) => {
+                let isPresent = data.find((mainData) => mainData.firstName == user.firstName && mainData.lastName == user.lastName);
+                if (isPresent == undefined) {
+                    let newObj = {
+                        id: Date.now() + count,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                    }
+                    count++;
+                    data.push(newObj);
+                }
+            })
+            Render();
+        }
+
 
         function Render() {
             document.getElementsByClassName("data")[0].innerHTML = "";
@@ -51,8 +83,8 @@
                 alert("Invalid Data")
                 return;
             }
-            let status = data.find(user=>user.firstName === firstName.value && user.lastName == lastName.value)
-            if(status){
+            let status = data.find(user => user.firstName === firstName.value && user.lastName == lastName.value)
+            if (status) {
                 alert("User Already Exists")
                 return;
             }

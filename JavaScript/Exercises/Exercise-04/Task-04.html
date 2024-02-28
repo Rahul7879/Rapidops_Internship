@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task-04</title>
 </head>
-
 <body>
-
     <div class="container">
         <div class="input-field">
             <input type="text" id="firstName">
@@ -61,6 +59,11 @@
                 alert("Invalid Entry")
                 return;
             }
+            let status = data.find(user=>user.firstName === firstName.value && user.lastName == lastName.value)
+            if(status){
+                alert("User Already Exist")
+                return;
+            }
             let newObj = {
                 id: Date.now(),
                 firstName: firstName.value,
@@ -72,6 +75,7 @@
             lastName.value = "";
             Render();
             console.log(data);
+            Count();
         }
 
         function editUser(id) {
@@ -79,6 +83,7 @@
             firstName.value = user.firstName;
             lastName.value = user.lastName;
             document.getElementById("updateBtn").style.display = 'block';
+            document.getElementById("addBtn").style.display = 'none';
             currentEditingId = id;
         }
 
@@ -90,14 +95,15 @@
 
         document.getElementById("updateBtn").addEventListener("click", function () {
             if (currentEditingId !== null) {
+                document.getElementById("addBtn").style.display = 'block';
                 const user = data.find(u => u.id === currentEditingId);
                 user.firstName = firstName.value;
                 user.lastName = lastName.value;
-                Render();
                 firstName.value = "";
                 lastName.value = "";
                 this.style.display = 'none';
                 currentEditingId = null;
+                Render();
             }
         });
         let elements = document.getElementsByClassName("row");
