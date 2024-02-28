@@ -11,10 +11,10 @@ let arr = [{
   },
   {
     Name: 'Rishabh',
-    Sports: ['Table-Tennis', 'Football'],
+    Sports: ['TableTennis', 'Football'],
   },]
 
-  let games = [];
+  let games = {};
   for(let i = 0; i<arr.length; i++){
      let inner = arr[i].Sports;
      for(let j = 0; j<inner.length; j++){
@@ -26,5 +26,13 @@ let arr = [{
      }
   }
 
-  console.log(games);
+  let final = [];
+  for(let g in games){
+    let tempObj = {};
+    tempObj[g] = games[g];
+    final.push(tempObj);
+    hub
+  }
+
+  console.log(final);
 

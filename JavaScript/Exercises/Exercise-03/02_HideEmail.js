@@ -28,10 +28,7 @@ function Hide() {
     username += email[i] + email.slice(-domain.length);
     alert(username);
 }
-let email = "d";
-while (email != "") {
-    Hide();
-}
+Hide();
 
 
 

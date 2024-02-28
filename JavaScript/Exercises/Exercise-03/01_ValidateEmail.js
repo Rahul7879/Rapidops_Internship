@@ -21,6 +21,10 @@ do{
 }while(!Check(email))
 
 
+// giving right output for this -  demo123@@gmail...comythyth
+// that is wrong email 
+
+
 
 
  
