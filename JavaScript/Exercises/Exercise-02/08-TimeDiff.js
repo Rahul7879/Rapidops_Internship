@@ -16,7 +16,7 @@ function dateDifference(date1, date2) {
 
     if (days < 0) {
         months--;
-        const previousMonth = new Date(date2.getFullYear(), date2.getMonth(), 0);
+        const previousMonth = new Date(date2.getFullYear(), date2.getMonth(),0);
         days += previousMonth.getDate();
         if (months < 0) {
             years--;
@@ -32,6 +32,6 @@ function dateDifference(date1, date2) {
     return output.trim();
 }
 
-const date1 = new Date("02/15/2024");
-const date2 = new Date("03/16/2028");
+const date1 = new Date("05/08/2003");
+const date2 = new Date("02/06/2024");
 console.log(dateDifference(date1, date2));

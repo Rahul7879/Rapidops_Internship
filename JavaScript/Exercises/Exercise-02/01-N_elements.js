@@ -5,24 +5,24 @@
 const arr = [1,2,3,4]
 
 function getElements(n){
-   let tempArr = [];
+   let FirstElements = [];
+   let lastElements = [];
    for(let i = 0; i<n; i++){
-    tempArr.push(arr[i]);
+      FirstElements.push(arr[i]);
    }
    for(let i = n; i>0; i--){
-    tempArr.push(arr[arr.length-i]);
+    lastElements.push(arr[arr.length-i]);
    }
-   return tempArr;
+   return `First ${n} Elements: [${FirstElements}], Last ${n} Elements: [${lastElements}]`;
 }
 console.log(getElements(2));
 
 // method -02 
 
 function getElements1(n){
-   let tempArr = [];
-   tempArr =  arr.slice(0,n);
-   tempArr = tempArr.concat(arr.slice(-n))
-   return tempArr;
+   FirstElements =  arr.slice(0,n);
+   lastElements = arr.slice(-n)
+   return `First ${n} Elements: [${FirstElements}], Last ${n} Elements: [${lastElements}]`;
 }
 console.log(getElements1(2));
 
