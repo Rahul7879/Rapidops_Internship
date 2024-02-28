@@ -115,6 +115,11 @@
 
         document.getElementById("updateBtn").addEventListener("click", function () {
             if (currentEditingId !== null) {
+                let status = data.find(user => firstName.value === user.firstName && lastName.value === user.lastName)
+                if (status) {
+                    alert("User Already Exist")
+                    return;
+                }
                 document.getElementById("addBtn").style.display = 'block';
                 const user = data.find(u => u.id === currentEditingId);
                 user.firstName = firstName.value;

@@ -6,14 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task-04</title>
 </head>
+
 <body>
+
     <div class="container">
         <div class="input-field">
             <input type="text" id="firstName">
             <input type="text" id="lastName">
             <button id="addBtn" onclick="Add()">Add</button>
             <button id="updateBtn" style="display:none;">Update</button>
-        </div> 
+        </div>
         <div class="row select-all">
             <input id="selectAll" onclick="selectAll()" type="checkbox">
             <label for="selectAll" onclick="selectAll()">Select All</label>
@@ -59,8 +61,8 @@
                 alert("Invalid Entry")
                 return;
             }
-            let status = data.find(user=>user.firstName === firstName.value && user.lastName == lastName.value)
-            if(status){
+            let status = data.find(user => user.firstName === firstName.value && user.lastName == lastName.value)
+            if (status) {
                 alert("User Already Exist")
                 return;
             }
@@ -93,8 +95,14 @@
             Count();
         }
 
-        document.getElementById("updateBtn").addEventListener("click", function () {
+        document.getElementById("updateBtn").addEventListener("click", 
+        function () {
             if (currentEditingId !== null) {
+                let status = data.find(user => firstName.value === user.firstName && lastName.value === user.lastName)
+                if (status) {
+                    alert("User Already Exist")
+                    return;
+                }
                 document.getElementById("addBtn").style.display = 'block';
                 const user = data.find(u => u.id === currentEditingId);
                 user.firstName = firstName.value;
@@ -105,7 +113,9 @@
                 currentEditingId = null;
                 Render();
             }
-        });
+        }
+        
+        );
         let elements = document.getElementsByClassName("row");
 
         function selectAll() {
@@ -121,9 +131,12 @@
             for (let i = 1; i < elements.length; i++) {
                 if (elements[i].firstElementChild.checked) {
                     data[i - 1].isCheck = true;
+                    elements[i].lastElementChild.previousElementSibling.disabled = true;
                     count++;
                 } else {
                     data[i - 1].isCheck = false;
+                    elements[i].lastElementChild.previousElementSibling.disabled = false;
+
                 }
             }
             document.getElementById("count").innerHTML = count;
@@ -168,12 +181,14 @@
             justify-content: center;
             text-align: center;
         }
+
         .input-field {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-bottom: 20px;
         }
+
         .input-field button {
             padding: 10px 15px;
             border: none;
@@ -182,30 +197,36 @@
             font-weight: bold;
             transition: background-color 0.2s;
         }
+
         #addBtn {
             background-color: transparent;
             color: blueviolet;
             border: 1px solid blueviolet;
         }
+
         #updateBtn {
             background-color: transparent;
             color: #ffc107;
             border: 1px solid #ffc107;
         }
+
         .input-field button:hover {
             opacity: 0.8;
         }
+
         .data {
             width: 100%;
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
+
         .row {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .row p {
             margin: 0 20px;
             padding: 5px 20px;
@@ -217,6 +238,7 @@
             border-radius: 4px;
             transition: box-shadow 0.3s;
         }
+
         .row button {
             padding: 5px 10px;
             margin-left: 10px;
@@ -224,22 +246,33 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         .row button:nth-last-child(2) {
             background-color: green;
             color: white;
         }
+
         .row button:last-child {
             background-color: red;
             color: white;
         }
+
         .select-all {
-            margin: 1rem;
+            margin-bottom: 1rem;
         }
+
         .select-all p {
             margin: 0 3rem;
         }
+
         #count {
             color: red;
+        }
+
+        button:disabled {
+            background-color: rgb(134, 190, 133) !important;
+            color: white;
+            cursor: not-allowed;
         }
     </style>
 </body>
