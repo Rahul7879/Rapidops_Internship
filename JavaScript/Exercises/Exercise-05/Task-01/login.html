@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body>
+    <div class="navbar">
+        <img src="./rapidops-logo.png" alt="" srcset="">
+        <p>Login</p>
+    </div>
+    <div class="login-container container">
+        <h2>Login</h2>
+        <div class="login-group">
+            <p for="login-username">Username</p>
+            <input type="text" id="login-username" placeholder="Enter your username">
+        </div>
+        <div class="login-group">
+            <label for="login-password">Password
+            </label>
+            <input type="text" id="login-password" placeholder="Enter Password">
+        </div>
+
+        <button class="login button" onclick="login()">Login</button>
+        <button class="goto button" onclick="changePage('signup')">Go to SignUp</button>
+    </div>
+
+    <div class="signup-container container none">
+        <h2>Signup </h2>
+        <div class="login-group">
+            <label for="signup-username">Username</label>
+            <input type="text" id="signup-username" placeholder="Enter your username">
+        </div>
+        <div class="login-group">
+            <label for="signup-password">Password
+            </label>
+            <input type="text" id="signup-password" placeholder="Enter Password">
+        </div>
+        <div class=" admin">
+            <label for="isAdmin">isAdmin</label>
+            <input type="checkbox" id="isAdmin">
+        </div>
+
+        <button class="login button" onclick="signUp()">SignUp</button>
+        <button class="goto button" onclick="changePage('login')">Go to Login</button>
+
+    </div>
+
+    <script>
+        let studentData = JSON.parse(localStorage.getItem('studentData') || '[]');
+        const loginUsername = document.getElementById('login-username');
+        const loginPassword = document.getElementById("login-password");
+        const signupUsername = document.getElementById('signup-username');
+        const signupPassword = document.getElementById("signup-password");
+        const isAdmin = document.getElementById("isAdmin");
+        
+        function login() {
+            console.log(loginUsername.value);
+            let isAdmin = studentData.find((admin)=>admin.name === loginUsername.value && admin.password === loginPassword.value && admin.isAdmin);
+
+            if(isAdmin){
+                localStorage.setItem("isAdminLoggedIn","true");
+                localStorage.setItem("currentAdmin",loginUsername.value);
+
+                window.location.href = "admin.html";
+                return;
+            }
+            let status = studentData.find((student)=>student.name === loginUsername.value && student.password === loginPassword.value);
+            if (status !== undefined) {
+                localStorage.setItem("currentUser",loginUsername.value);
+                window.location.href = "student.html"; 
+            } else {
+                alert('Invalid credentials !');
+            }
+        }
+    
+        function signUp(){
+            console.log(signupUsername,signupPassword)
+            if(signupUsername.value === "" || signupPassword.value === ""){
+                alert("Fill All Fields");
+                return;
+            }
+
+            let isPresent = studentData.find((st)=>st.name === signupUsername.value);
+            if(isPresent){
+                alert("user Already Present!");
+                return;
+            }
+            let obj = {
+                name: signupUsername.value,
+                password: signupPassword.value,
+                id: Date.now(),
+                isAdmin: isAdmin.checked,
+                courses: [],
+            };
+            studentData.push(obj);
+            localStorage.setItem("studentData", JSON.stringify(studentData));
+
+            alert("SignUp Successfully");
+            changePage("login");
+        }
+
+        let loginPage = document.getElementsByClassName("login-container")[0];
+        let singUpPage = document.getElementsByClassName("signup-container")[0];
+
+        function changePage(val){
+            loginPage.classList.toggle("none");
+            singUpPage.classList.toggle("none");
+        }
+    </script>
+
+<style>
+    body{
+        background-color: #f3f3f3;
+        margin: 0;
+        padding: 0;
+    }
+    .navbar{
+        background-color: #ffff;
+        box-shadow: 0 2px 2px -2px rgba(0,0,0,.2);
+        display: flex;
+        justify-content: space-around;
+    }
+    .navbar img{
+        height: 35px;
+        margin-top: 5px;
+    }
+    .container {
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f5eeee;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+
+    .login-group label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .login-group input[type="text"],
+    .login-group input[type="password"] {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+    }
+
+    .button {
+        width: 100%;
+        margin: 10px;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .login-button:hover {
+        background-color: #0056b3;
+    }
+    .none{
+        display: none;
+    }
+    .admin{
+        margin-bottom: 20px;
+    }
+    .goto{
+        background-color: transparent;
+        color: black;
+        border: 2px solid black;
+        transition: 1s;
+    }
+    .goto:hover{
+        background-color: #007bff;
+    }
+</style>
+</body>
+</html>

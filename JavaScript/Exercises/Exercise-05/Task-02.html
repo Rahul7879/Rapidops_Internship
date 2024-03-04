@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task-02</title>
+</head>
+
+<body>
+    <div class="container">
+        <input placeholder="Search Here" id="id" type="text" oninput="getValue()">
+        <div id="main">
+        </div>
+    </div>
+
+    <script>
+        let names = ["Rahul rajput RAHUL rAjput", "Deepak Gupta",
+            "Aarav Gorav", "Priya Gupta", "Vivek Sharma", "Ananya Singh",
+            "Rohan Mehra", "Isha Chopra", "Kabir Desai", "Diya Bhat",
+            "Arjun Reddy", "Neha Malik", "Siddharth Nair", "Aisha Khan",
+            "Raj Kumar", "Simran Sethi", "Aditya Agarwal", "Riya Kaur",
+            "Mohit Chauhan", "Pooja Pandey", "Amit Joshi", "Tanvi Prasad"
+        ];
+
+        let input = document.getElementById("id");
+        function getValue() {
+            document.getElementById("main").innerHTML = "";
+            if (input.value.trim().length < 2) return;
+            let Comman = names.filter((name) => name.toLowerCase().includes(input.value.toLowerCase()));
+            Comman.forEach((user) => {
+                let element = document.createElement("p");
+                let fullName = user;
+                let subStr = input.value;
+                fullName = ReplaceStr(fullName, subStr);
+                element.innerHTML = fullName;
+                document.getElementById("main").append(element);
+            })
+        }
+
+        function ReplaceStr(fullName, subStr) {
+            let forCompare = fullName.toLowerCase();
+            let len = subStr.length;
+            let newStr = "";
+            for (let i = 0; i < fullName.length; i++) {
+                if (forCompare.substring(i, i + len) == subStr) {
+                    newStr += `<span class="yellow">${fullName.substring(i, i + len)}</span>`
+                    i += len - 1;
+                } else {
+                    newStr += fullName[i];
+                }
+            }
+            return newStr;
+
+            // optional - but it will sow list in lowercase only 
+            // return fullName.toLowerCase().replaceAll(subStr.toLowerCase(),`<span class="yellow">${subStr}</span>`);
+        }
+    </script>
+
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .yellow {
+            background-color: yellow;
+        }
+
+        #id {
+            padding: 10px 20px;
+        }
+    </style>
+</body>
+
+</html>

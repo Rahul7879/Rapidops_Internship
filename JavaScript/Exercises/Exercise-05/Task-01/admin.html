@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+</head>
+<body>
+    <div class="navbar">
+        <img src="./rapidops-logo.png" alt="" srcset="">
+        <p> <span id="name">Admin</span> | Admin</p>
+        <button class="logout-button" onclick="LogOut()">LogOut</button>
+    </div>
+    <div class="container">
+        <div class="form-group">
+            <input type="text" id="input" placeholder="Enter a new course name">
+            <button onclick="createCourse()">Add Course</button>
+        </div>
+        <div class="mainDiv">
+            <div class="courses"></div>
+            <div class="selectStudent">
+                <h2>Select student</h2>
+                <div class="student"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let isLogedIn = localStorage.getItem("isAdminLoggedIn");
+        let currentAdmin = localStorage.getItem("currentAdmin");
+        document.getElementById("name").innerHTML = currentAdmin;
+
+        if (isLogedIn == undefined || isLogedIn == "false") {
+            window.location.href = "login.html";
+        }
+        let courses = document.getElementsByClassName("courses")[0];
+        let students = document.getElementsByClassName("student")[0];
+        let selectStudent = document.getElementsByClassName("selectStudent")[0];
+
+        let courseData = JSON.parse(localStorage.getItem('data') || '[]');
+        let studentsData = JSON.parse(localStorage.getItem('studentData') || '[]');
+        let currentCourseId = null;
+        let currentCourseName = null;
+
+        students.addEventListener("click", (e) => {
+            console.log(studentsData);
+            if (!currentCourseId || !currentCourseName) return;
+            let tg = e.target.innerHTML;
+            studentsData.forEach((s) => {
+                if (s.name === tg) {
+                    if (s.courses.includes(currentCourseName)) {
+                        alert("student already registered")
+                    } else {
+                        console.log(s);
+                        s.courses.push(currentCourseName);
+                        localStorage.setItem("studentData", JSON.stringify(studentsData));
+                    }
+                }
+            });
+
+            courseData.forEach((s) => {
+                if (s.id === currentCourseId) {
+                    if (!s.assignedTo.includes(tg)) {
+                        s.assignedTo.push(tg);
+                        localStorage.setItem("data", JSON.stringify(courseData));
+                    }
+                }
+            });
+            selectStudent.style.display = "none"
+            Render();
+        });
+
+        function showStudent() {
+            studentsData = JSON.parse(localStorage.getItem("studentData") || '[]');
+            if(studentsData.every((s)=>s.isAdmin)){
+                alert("no student registered yet")
+                return false;
+            } else {
+                students.innerHTML = "";
+                studentsData.forEach((student) => {
+                    if(!student.isAdmin){
+                        let elem = document.createElement("p");
+                        elem.innerHTML = student.name;
+                        students.append(elem);
+                    }
+                });
+            }
+            return true;
+        }
+        function assignCourse(id, name,assign) {
+            if(assign.style.backgroundColor == "red"){
+                assign.style.backgroundColor = "orange";
+                return;
+            }
+            studentData = JSON.parse(localStorage.getItem('studentData') || '[]');
+            if (studentData.length == 0) {
+                alert("no student registered yet")
+                return;
+            }
+            currentCourseId = id;
+            currentCourseName = name;
+            if(showStudent()){
+                assign.style.backgroundColor = "red";
+                selectStudent.style.display = "block"
+            }
+        }
+      
+        function createCourse() {
+            if(input.value.length < 1){
+                alert("Add Course Name")
+                return ;
+            }
+            let currentAdmin = localStorage.getItem("currentAdmin");
+            let obj = {
+                name: input.value,
+                id: Date.now(),
+                assignedTo: [],
+                createdBy:  currentAdmin,
+            };
+            courseData.push(obj);
+            localStorage.setItem("data", JSON.stringify(courseData));
+            Render();
+        }
+
+        function deleteCourse(id, name) {
+            courseData = courseData.filter((data) => data.id !== id);
+            localStorage.setItem("data", JSON.stringify(courseData));
+
+            studentsData.forEach((data) => {
+                let newData = data.courses.filter((c) => c !== name);
+                data.courses = newData;
+            });
+            localStorage.setItem("studentData", JSON.stringify(studentsData));
+            Render();
+        }
+        Render();
+
+        function LogOut() {
+            localStorage.setItem("isAdminLoggedIn", "false");
+            window.location.href = "login.html";
+        }
+
+
+        function Render() {
+            courses.innerHTML = "";
+            courseData.forEach((element) => {
+                if(element.createdBy == currentAdmin){
+                let elem = document.createElement("div");
+                elem.className = "courseInfo"
+                let h1 = document.createElement("h1");
+                h1.innerHTML = element.name;
+                let deleteBtn = document.createElement("button");
+                deleteBtn.className = "delete-button"
+                deleteBtn.innerHTML = "Delete";
+                let assign = document.createElement("button");
+                assign.className = "assign-button"
+                assign.innerHTML = "Assign";
+                let btns = document.createElement("div");
+                btns.append(assign, deleteBtn)
+                assign.onclick = function () { assignCourse(element.id, element.name, assign) };
+                deleteBtn.onclick = function () { deleteCourse(element.id, element.name); };
+                let ol = document.createElement("ol");
+                element.assignedTo.forEach((n) => {
+                    let name = document.createElement("li");
+                    name.innerHTML = n;
+                    ol.append(name);
+                });
+                let assignedStu =  document.createElement("p");
+                assignedStu.className = "assign-to";
+                assignedStu.innerHTML = "assigned to- " 
+                elem.append(btns,assignedStu, ol);
+                let mainDiv = document.createElement("div");
+                mainDiv.className = "mainDiv";
+                mainDiv.append(h1, elem);
+                courses.append(mainDiv);
+            }
+            });
+        }
+    </script>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f3f3f3;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    .navbar {
+        background-color: #ffff;
+        box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .2);
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+
+    .navbar img {
+        height: 35px;
+        margin-top: 5px;
+    }
+
+    .container {
+        max-width: 960px;
+        margin: auto;
+        background-color: #ffffff;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        text-align: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-around;
+
+    }
+
+    .header h1 {
+        color: #333;
+    }
+
+    .form-group {
+        display: flex;
+        margin: 20px 0;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-group input {
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+        width: 300px;
+    }
+
+    .form-group button {
+        padding: 10px 15px;
+        background-color: #5cb85c;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+    }
+
+    .form-group button:hover {
+        background-color: #4cae4c;
+    }
+
+    .delete-button {
+        background-color: #d9534f;
+        color: white;
+        margin-top: 15px;
+        height: 30px;
+        border-radius: 5px;
+    }
+
+    .assign-button {
+        background-color: hsl(35, 84%, 62%);
+        color: white;
+        margin: 0 10px;
+        margin-top: 20px;
+        height: 30px;
+        border-radius: 5px;
+    }
+
+    .delete-button:hover {
+        background-color: #c9302c;
+    }
+
+    .assign-button:hover {
+        background-color: #ec971f;
+    }
+
+    .selectStudent {
+        background-color: #7f6261;
+        padding: 10px;
+        color: #ffff;
+        height: max-content;
+        border-radius: 10px;
+        border: 1px solid black;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .selectStudent p:hover {
+        background-color: #555;
+    }
+    ol {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    ol li {
+        margin: 0 20px;
+    }
+    .courseInfo {
+        display: flex;
+        /* justify-content: space-between; */
+        margin: 0px;
+        padding: 0px;
+    }
+    .courseInfo h1 {
+        margin: 0;
+    }
+    .logout-button {
+        background-color: #c17775 !important;
+    }
+    .mainDiv {
+        display: flex;
+    }
+    .assign-to{
+        margin-top: 25px;
+        margin-left:  20px;
+    }
+</style>
+</body>
+</html>

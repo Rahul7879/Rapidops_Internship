@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task-03</title>
+</head>
+
+<body>
+    <h3 id="greet">Greeting Mr.X plz choose the Surprize box</h3>
+    <div class="container">
+        <div class="box1 size">1<p></p></div>
+        <div class="box2 size" onclick="onBox2()">2<p>hdlo</p></div>
+        <div class="box3 size">3</div>
+        <div class="box4 size">4</div>
+    </div>
+
+    <script>
+
+        let color = ["red", "green", "yellow", "black", "grey", "blue"];
+        let box1 = document.getElementsByClassName("box1")[0];
+        let box2 = document.getElementsByClassName("box2")[0];
+        let box3 = document.getElementsByClassName("box3")[0];
+        let box4 = document.getElementsByClassName("box4")[0];
+
+
+        window.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                alert("after load");
+                afterAlert();
+            }, 500)
+        })
+
+        function afterAlert() {
+            box2.firstElementChild.innerHTML = "Click me First";
+            let count = 0;
+            setInterval(() => {
+                box3.style.backgroundColor = color[count % 3];
+                count++;
+            }, 2000);
+        }
+
+        function onBox2(){
+            box1.firstElementChild.innerHTML = "Oops Something Wrong";
+            let count = 0;
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "ArrowUp" || e.key === "ArrowRight") {
+                    box4.style.backgroundColor = color[count % 6];
+                    count++;
+                }
+                if (e.key === "ArrowDown" || e.key === "ArrowLeft") {
+                    box4.style.backgroundColor = color[count % 6];
+                    count--;
+                }
+            })
+            setInterval(() => {
+                count++;
+                box4.style.backgroundColor = color[count % 3];
+            }, 5000)
+        }
+    </script>
+
+
+<style>
+    .container {
+        width: 30%;
+        margin: 30px auto;
+        justify-content: center;
+        text-align: center;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .size {
+        margin: 10px 10px;
+        width: 150px;
+        height: 150px;
+        background-color: aqua;
+    }
+    #greet{
+        text-align: center;
+        background-color: rgb(177, 176, 176);
+        padding: 10px 20px;
+        width: 70%;
+        margin: auto;
+        border: 2px solid blueviolet;
+        border-radius: 10px;
+    }
+</style>
+</body>
+
+</html>
