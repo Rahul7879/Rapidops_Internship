@@ -61,3 +61,12 @@ mp.set("name", "John");
 let keys = Array.from(map.keys());
 keys.push("more");
 console.log(keys);
+
+
+// 4 hasDuplicate 
+
+function  hasDuplicate(arr) {
+    return new Set(arr).size == arr.length;
+}
+
+console.log(hasDuplicate([11,2,34,5]));

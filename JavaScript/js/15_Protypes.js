@@ -55,3 +55,4 @@ let user2 = new createUser("rohit",2);
 
 user1.increment();
 user2.increment();
+
