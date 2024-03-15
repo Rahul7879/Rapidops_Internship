@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
-const Pages = mongoose.model("Pages", {
+const pageSchema = new mongoose.Schema({
+    email:{
+        type:String,
+        required:true
+    },
     title: {
         type: String,
         required: true,
@@ -10,11 +14,19 @@ const Pages = mongoose.model("Pages", {
         required: true,
     },
     body:{
-        type: String
+        type: String,
+        required: true,
     },
     isdraft : {
-        type: Boolean
+        type: Boolean,
+        required:true
+    },
+    ishide:{
+        type: Boolean,
+        required:true
     }
-})
+}, { timestamps: true }); 
+
+const Pages = mongoose.model("Pages", pageSchema);
 
 export default Pages;

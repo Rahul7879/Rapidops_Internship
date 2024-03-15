@@ -1,6 +1,7 @@
 import userModel from "../model/user.js"
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import cookie from 'cookie-parser';
 
 
  const signup =  (req,res)=>{
@@ -10,7 +11,11 @@ import bcrypt from 'bcryptjs';
       if(result){
        return res.send({code: 401, message : "Email already in use"})
       }else{
-        const token = jwt.sign({name:req.body.email},"hellomynameisrahulsinghrajputfrombhopal")
+          const token = jwt.sign({name:req.body.email},"hellomynameisrahulsinghrajputfrombhopal")
+        res.cookie("jwt",token,{
+            maxAge:30000,
+            httpOnly: true,
+         });
         const hasspassword =  await bcrypt.hash(req.body.password,10).then((result));
         const newUser = new userModel({
         email: req.body.email,
@@ -46,10 +51,13 @@ const login = (req, res) => {
         const isMatch = await bcrypt.compare(req.body.password, result.password);;
         console.log(isMatch);
         if (isMatch) {
-            // Passwords match
-             res.send({ code: 200, message: "User found" });
+             res.cookie("jwt",res.token,{
+                maxAge:30000,
+                httpOnly: true,
+             });
+             res.send({ code: 200, message: "User found",email: result.email });
+
         } else {
-            // Passwords do not match
              res.send({ code: 404, message: "Wrong password" });
         }  
     }).catch((err) => {

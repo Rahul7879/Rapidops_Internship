@@ -1,3 +1,4 @@
+
 import './App.css'
 import SignUp from './Components/SignUp'
 import Login from './Components/Login'
@@ -8,6 +9,9 @@ import Pages from './Components/Pages';
 import CreatePage from './Components/CreatePage';
 import { ToastContainer } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
+import SidebarWithToggle from './Components/SideBar';
+import MainSideBar from './Components/MainSideBar';
+import Dashboard from './Components/Dashboard';
 
 
 function App() {
@@ -22,8 +26,8 @@ function App() {
      <Route exact path='/nopage' element={<NoPagesFound/>}></Route>
      <Route exact path='/pages' element={<Pages/>}></Route>
      <Route exact path='/createpage' element={<CreatePage/>}></Route>
-
-
+     <Route exact path='/sidebar' element={<MainSideBar/>}></Route>
+     <Route exact path='/dashboard' element={<Dashboard/>}></Route>
 
      </Routes>
      <ToastContainer/>

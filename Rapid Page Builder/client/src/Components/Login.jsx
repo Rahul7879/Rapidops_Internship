@@ -19,9 +19,11 @@ const Login = () => {
             email: email,
             password: password,
         }).then((res) => {
+            console.log("REs",res);
             if(res.data.code === 200){
-                navigate('/createpage');
-                localStorage.setItem("Token",res.data.token)
+                
+                navigate('/dashboard');
+                localStorage.setItem("email",res.data.email)
                 toast.success("login successufull")
     
             }else if(res.data.code === 404){

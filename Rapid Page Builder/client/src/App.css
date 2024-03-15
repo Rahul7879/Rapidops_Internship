@@ -6,6 +6,56 @@
   margin-right: 10px;
 }
 
-form{
+.my-border{
   border: 1px solid grey;
+  border-bottom: none;
+  padding: 15px;
+}
+
+.default-img{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+.default-img img{
+   width: 6rem;
+   height: 5rem;
+}
+
+.sidebar-open {
+  width: 250px;
+  transition: width 0.3s ease-in-out;
+}
+
+.sidebar-closed {
+  width: 0;
+  transition: width 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* Sidebar.css */
+.sidebar {
+  position: fixed;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  left: 0;
+  top: 0;
+  width: 64px; /* Width of the sidebar */
+  height: 100%;
+  background-color: #f4f4f4;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+.mainsidebar{
+  width: 500px;
+  justify-content: end;
+}
+
+.content {
+  padding: 10px;
+}
+.sidebar img{
+  width: 50px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
