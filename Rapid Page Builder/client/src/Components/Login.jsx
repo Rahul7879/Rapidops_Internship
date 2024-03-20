@@ -8,10 +8,6 @@ const Login = ({isUserAuthenticated}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    useEffect(()=>{
-         isUserAuthenticated(true);
-    },[isUserAuthenticated])
-
     const navigate = useNavigate();
 
     const validateEmail = (email) => {
@@ -33,15 +29,12 @@ const Login = ({isUserAuthenticated}) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         if (!validateForm()) return;
-
         axios.defaults.withCredentials = true;
         axios.post('http://localhost:5000/login', {
             email: email,
             password: password,
         }).then((res) => {
-                isUserAuthenticated(true);
                 navigate('/dashboard');
                 localStorage.setItem("email", email);
                 toast.success("Login successful");
@@ -54,7 +47,6 @@ const Login = ({isUserAuthenticated}) => {
             }
         });
     }
-
     return (
         <div className='container my-5 '>
             <div className="row justify-content-center">

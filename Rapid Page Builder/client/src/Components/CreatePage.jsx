@@ -40,11 +40,34 @@ const CreatePage = () => {
   const navigate = useNavigate()
 
 
+  
   useEffect(() => {
-    if (userEmail === null) {
-      navigate("/login");
+    axios.get('http://localhost:5000/getallpages/',{
+        headers:{
+            "Authorization":JSON.stringify({"a":getCookie("accessToken"),"r":getCookie('refreshtoken'),"email":localStorage.getItem("email")})
+        }
+    }).then((res) => {
+        if(res.data.valid === false){
+            navigate('/login')
+        }
+    }).catch((err) => {
+        navigate("/login");
+    })
+  }, []);
+
+  function getCookie(name) {
+    let cookies = document.cookie.split(';');
+    for(let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i].trim();
+      if (cookie.startsWith(name + '=')) {
+        return cookie.substring(name.length + 1);
+      }
     }
-  }, [userEmail, navigate]);
+    return "";
+  }
+  
+
+
 
 
 {/***
@@ -95,10 +118,11 @@ const handleUpdate = () => {
   });
 }
 
-
   const handleSubmit = () => {
+    console.log(content)
 
-    axios.post('http://localhost:5000/create', {
+    axios.post('http://localhost:5000/create',
+    {
       email: userEmail,
       title: title,
       subTitle: subTitle,
@@ -122,6 +146,7 @@ const handleUpdate = () => {
   }
 
   function handleTask(){
+    console.log(id,"DDDD");
     if(id){
       handleUpdate();
     }else{
@@ -142,7 +167,7 @@ const handleUpdate = () => {
   return (
     <>
 
-      <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header bg-dark">
@@ -151,20 +176,20 @@ const handleUpdate = () => {
             </div>
             <div className="modal-body">
               <form>
-                <div class="mb-3">
-                  <label htmlFor="exampleInputEmail1" class="form-label" >*Publish Date</label>
-                  <input type="date" onChange={(e) => setDate(e.target.value)} class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                <div className="mb-3">
+                  <label htmlFor="exampleInputEmail1" className="form-label" >*Publish Date</label>
+                  <input type="date" onChange={(e) => setDate(e.target.value)} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
                 </div>
-                <div class="mb-3">
-                  <label ntmlFor="exampleInputPassword1" class="form-label">*Publish</label>
-                  <input type="time" class="form-control" onChange={(e) => setTime(e.target.value)} id="exampleInputPassword1" />
+                <div className="mb-3">
+                  <label htmlFor="exampleInputPassword1" className="form-label">*Publish</label>
+                  <input type="time" className="form-control" onChange={(e) => setTime(e.target.value)} id="exampleInputPassword1" />
                 </div>
               </form>
 
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-outline-dark" data-bs-dismiss="modal">cancel</button>
-              <button type="submit" className="btn btn-primary" onClick={()=>handleTask()}>Submit</button>
+              <button type="submit" className="btn btn-primary" onClick={()=>handleTask()}>Publish</button>
             </div>
           </div>
         </div>
@@ -174,7 +199,7 @@ const handleUpdate = () => {
       <div className='mx-5 p-0'>
         <nav className="navbar navbar-light m-0  p-3">
           <div className="container-fluid">
-            <a className="navbar-brand fs-3"> Home Page {id} <span>draft</span></a>
+            <a className="navbar-brand fs-3"> Home Page <span>draft</span></a>
             <div className="d-flex col-md-2 justify-content-between">
               <div className="dropdown">
                 <button className="btn btn-secondary btn-custom pb-0 pt-0 fs-3 d-flex justify-content-center align-items-center" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -182,10 +207,10 @@ const handleUpdate = () => {
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
                   <li><button className="dropdown-item" type="button">preview</button></li>
-                  <li><button className="dropdown-item text-danger" type="button">delete</button></li>
+                  <li><button className="dropdown-item text-danger" type="button" onClick={()=>navigate('/dashboard')}>delete</button></li>
                 </ul>
               </div>
-              <button className="btn btn-outline-dark" type="submit">cancel</button>
+              <button className="btn btn-outline-dark" type="submit" onClick={()=>navigate('/dashboard')} >cancel</button>
               <button className="btn btn-primary" type="submit" onClick={() => handleTask()}>save</button>
               <button className="btn btn-success" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Publish</button>
 
@@ -243,7 +268,7 @@ const handleUpdate = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="exampleInputEmail1" className="form-label" >Author</label>
-              <input type="text" className="form-control" value={localStorage.getItem("email")} id="exampleInputEmail1" aria-describedby="emailHelp" />
+              <input type="text" className="form-control" defaultValue={localStorage.getItem("email")} id="exampleInputEmail1" aria-describedby="emailHelp" />
             </div>
             <div className="mb-3 form-check">
               <input type="checkbox" className="form-check-input" id="exampleCheck1" onChange={(e) => setIsHide(e.target.checked)} />

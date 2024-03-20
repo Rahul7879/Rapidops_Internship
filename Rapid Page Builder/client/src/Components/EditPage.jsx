@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import JoditEditor from 'jodit-react'
 import img from '../assets/nopage.svg'
-import Sidebar from './SideBar';
 import MainSidebar from './MainSideBar';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -42,18 +41,33 @@ const EditPage = () => {
   const [isPublished, setIsPublished] = useState(false);
 
   const navigate = useNavigate();
-
   let userEmail = localStorage.getItem("email");
-
   let contenteId = localStorage.getItem("editPage");
 
   useEffect(() => {
-    if (userEmail === null) {
-      navigate("/login");
+    axios.get('http://localhost:5000/getallpages/',{
+        headers:{
+            "Authorization":JSON.stringify({"a":getCookie("accessToken"),"r":getCookie('refreshtoken'),"email":localStorage.getItem("email")})
+        }
+    }).then((res) => {
+        if(res.data.valid === false){
+            navigate('/login')
+        }
+    }).catch((err) => {
+        navigate("/login");
+    })
+  }, []);
+
+  function getCookie(name) {
+    let cookies = document.cookie.split(';');
+    for(let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i].trim();
+      if (cookie.startsWith(name + '=')) {
+        return cookie.substring(name.length + 1);
+      }
     }
-  }, [userEmail, navigate]);
-
-
+    return "";
+  }
   useEffect(()=>{
     axios.post('http://localhost:5000/get', {
       id : contenteId,
@@ -132,13 +146,6 @@ function deletePage(id){
 }
 
 
-  const [selectedFile, setSelectedFile] = useState(null);
-  const defaultImages = [
-    '/path/to/default-image1.png',
-    '/path/to/default-image2.jpg',
-
-  ];
-
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -210,7 +217,6 @@ function deletePage(id){
             </div>
             <div className="mb-3">
               <label htmlFor="exampleInputPassword1" className="form-label">Body</label>
-              {/*<input type="text" className="form-control" id="exampleInputPassword1" />*/}
               <JoditEditor
                 ref={editor}
                 value={content}
@@ -235,7 +241,6 @@ function deletePage(id){
           </div>
 
           <div className=' my-border col-md-3   m-0'>
-
             <div className="configurations d-flex justify-content-between border-bottom-1">
               <p>Configurations</p>
               <p>X</p>
@@ -252,9 +257,7 @@ function deletePage(id){
               <input  type="checkbox" className="form-check-input" id="exampleCheck1" onChange={(e) => setIsHide(e.target.checked)} />
               <label  className="form-check-label" htmlFor="exampleCheck1">Show Author</label>
             </div>
-
           </div>
-
         </div>
       </div>
     </>

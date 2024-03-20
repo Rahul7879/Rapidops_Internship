@@ -4,6 +4,7 @@ import cloudinary from "../Routes/cloudinary.js"
 
 const createPage = async (req, res) => {
         try {
+            console.log(req.body);
             const newUser = new pageModel({
                 email: req.body.email,
                 title: req.body.title,
@@ -69,7 +70,6 @@ const getAllPages = async (req, res) => {
 
 
 // const createPage = async (req, res) => {
-
 //     console.log("img===",req.file)
 //     let path = req.file.path || 'none'
 //     cloudinary.uploader.upload(path, async (err, result) => {

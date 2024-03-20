@@ -20,6 +20,18 @@ const customStyles = {
   },
 };
 
+function formatAsIST(date) {
+  return new Intl.DateTimeFormat('en-IN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZone: 'Asia/Kolkata'
+  }).format(new Date(date));
+}
+
 function deletePage(id,email) {
   
   if(email !== localStorage.getItem("email")){
@@ -60,7 +72,7 @@ const Pages = ({ tasks }) => {
     },
     {
       name: 'URL',
-      selector: row => <a href={`http://localhost:5000/pages/${row.url}`} >{row.url}</a>,
+      selector: row => <a className='text-decoration-none' href={`http://localhost:5000/pages/${row.url}`} >/{row.url}</a>,
     },
     {
       name: "Created By",
@@ -68,15 +80,15 @@ const Pages = ({ tasks }) => {
     },
     {
       name: "Created At",
-      selector: row => row.createdAt
+      selector: row => formatAsIST(row.createdAt)
     },
     {
       name: "Status",
-      selector: row => (row.publishDate === '0000-00-00T00:00') ? <span className='text-warning status' >draft </span> : (new Date(row.publishDate).getTime() > Date.now()) ? <span className='text-primary status'>scheduled</span> : <span className='text-success status '>Published</span>
+      selector: row => (row.publishDate === '0000-00-00T00:00') ? <span className='text-warning status-yellow' >draft </span> : (new Date(row.publishDate).getTime() > Date.now()) ? <span className='text-primary status-blue'>scheduled</span> : <span className='text-success status-green '>Published</span>
     },
     {
       name: "Actions",
-      selector: row => <div><button onClick={() => editPage(row._id,row.email)}>edit</button> <button className='bg-danger' onClick={() => deletePage(row._id,row.email)}>delete</button></div>
+      selector: row => <div><button className='btn fs-5 fw-normal text-warning '  onClick={() => editPage(row._id,row.email)}>edit</button> <button className=' btn fs-5 fw-normal text-danger' onClick={() => deletePage(row._id,row.email)}>delete</button></div>
     }
   ];
 
@@ -137,7 +149,6 @@ const Pages = ({ tasks }) => {
             ))}
           </select>
         </div>
-        
         <DataTable
           columns={columns}
           data={filteredData}
@@ -147,5 +158,4 @@ const Pages = ({ tasks }) => {
     </div>
   );
 };
-
 export default Pages;

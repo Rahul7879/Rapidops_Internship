@@ -5,7 +5,7 @@ const storage = multer.diskStorage({
   },
 });
 
-console.log('coming in this')
+// console.log('coming in this')
 
 const upload = multer({
   storage,

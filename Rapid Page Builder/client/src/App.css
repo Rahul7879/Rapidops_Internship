@@ -67,8 +67,18 @@
 .active{
   background-color: #EEF2FF;
 }
-.status{
+.status-green{
   background-color: rgb(213, 238, 213);
+  padding: 25px 15px;
+  border-radius: 30px;
+}
+.status-blue{
+  background-color: rgb(171, 209, 229);
+  padding: 25px 15px;
+  border-radius: 30px;
+}
+.status-yellow{
+  background-color: rgb(237, 233, 162);
   padding: 25px 15px;
   border-radius: 30px;
 }

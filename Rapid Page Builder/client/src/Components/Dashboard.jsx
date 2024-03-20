@@ -17,38 +17,38 @@ const Dashboard = () => {
         navigate("/login")
     }
 
-{
-//     useEffect(()=>{
-//         axios.get('http://localhost:5000/checkUser')
-//         .then(res=>{
-//             console.log(res,"eeegdsa")
-//             if(res.data.valid){
-//                 alert("valid")
-                
-//             }else{
-//                alert("not valid")
-//             }
-//         })
-//         }
-//     ,[])
-}
-
-
+  
+function getCookie(name) {
+    let cookies = document.cookie.split(';');
+    for(let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i].trim();
+      if (cookie.startsWith(name + '=')) {
+        return cookie.substring(name.length + 1);
+      }
+    }
+    return "";
+  }
+  
     useEffect(() => {
-        axios.get('http://localhost:5000/getallpages', {
+        axios.get('http://localhost:5000/getallpages/',{
+            headers:{
+                "Authorization":JSON.stringify({"a":getCookie("accessToken"),"r":getCookie('refreshtoken'),"email":localStorage.getItem("email")})
+            }
         }).then((res) => {
-            console.log(res);
+            if(res.data.valid === false){
+                navigate('/login')
+            }
             if(res.data.result.length !== undefined && res.data.result.length !== 0){
                 setData(res.data.result);
                 setShowData(true);
             }
         }).catch((err) => {
-            console.log(err);
-            alert("Some error");
+            navigate("/login");
+
         }).finally(()=>{
            setLoading(false)
         });
-    }, [userEmail]);
+    }, []);
 
 
     return (

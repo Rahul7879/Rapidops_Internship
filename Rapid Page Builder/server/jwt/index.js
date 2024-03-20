@@ -9,7 +9,7 @@ const jwtAuthMiddleware = (req,res,next)=>{
 
     const token = req.headers.authorization.split(' ')[1];
     if(!token) return res.status(401).json({ error: "Unauthorized"})
-    console.log("rij",token);
+    console.log("r",token);
     try{
         const decode = jwt.verify(token,process.env.JWT_SECRET);
         console.log("done",decode);

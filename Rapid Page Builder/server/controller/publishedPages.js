@@ -111,10 +111,10 @@ const publishedPages = async (req, res) => {
                     <p class="publish-time">${upcomingDate}</p>
                     <!-- Optionally, add a form or email link for updates -->
                     <p>Get notified when we launch:</p>
-                    <a href="mailto:your-email@example.com?subject=Notify me when you launch">Email us to subscribe</a>
+                    <a href="mailto:rahul.rajput@rapidops.co?subject=Notify me when you launch">Email us to subscribe</a>
                 </div>
                 <footer>
-                    © 2025 Your Company Name. All rights reserved.
+                    © 2025 Rapid Page Builder. All rights reserved.
                 </footer>
             </body>
             </html>
