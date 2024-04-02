@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery Task-01</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#sortable1").sortable({
+                helper: 'clone',
+                connectWith: ".connectedSortable",
+                start: function (event, ui) {
+                    $(ui.item).show();
+                }
+            });
+
+            $("#sortable2, #sortable3").sortable({
+                receive: function (event, ui) {
+                    if (ui.sender.attr("id") === "sortable1") {
+                        ui.item.clone().appendTo(ui.sender);
+                    }
+                },
+                connectWith: ".connectedSortable"
+            }).disableSelection();
+
+            $("#sortable1").on("sortreceive", function (event, ui) {
+                $(ui.sender).sortable('cancel');
+            });
+        });
+    </script>
+    
+</head>
+
+<body>
+    <div class="main">
+        <div id="content">
+            <div class="getData">
+                <input id="item" type="text">
+            </div>
+            <button id="loadButton" onclick="add()">add</button>
+            <button onclick="saveData()">save</button>
+        </div>
+
+        <div class="lists">
+            <ul id="sortable1" class="connectedSortable">
+            </ul>
+            <ul id="sortable2" class="connectedSortable">
+            </ul>
+            <ul id="sortable3" class="connectedSortable">
+            </ul>
+        </div>
+    </div>
+    <script>
+
+        let list1 = document.getElementById("sortable1")
+        let list2 = document.getElementById("sortable2")
+        let list3 = document.getElementById("sortable3")
+
+        window.onload = function () {
+            const priviousList1 = localStorage.getItem('list1');
+            const priviousList2 = localStorage.getItem('list2');
+            const priviousList3 = localStorage.getItem('list3');
+
+            if (priviousList1) {
+                const contentDiv = document.getElementById('sortable1');
+                contentDiv.innerHTML = priviousList1;
+                const contentDiv2 = document.getElementById('sortable2');
+                contentDiv2.innerHTML = priviousList2;
+                const contentDiv3 = document.getElementById('sortable3');
+                contentDiv3.innerHTML = priviousList3;
+            }
+        };
+
+        function saveData() {
+            localStorage.setItem("list1", list1.innerHTML);
+            localStorage.setItem("list2", list2.innerHTML);
+            localStorage.setItem("list3",list3.innerHTML);
+        }
+
+        function add() {
+            let li = document.createElement("li");
+            li.className = "ui-state-default ui-sortable-handle";
+            let con = document.getElementById("item")
+            li.innerHTML = con.value;
+            list1.append(li);
+        }
+    </script>
+
+    <style>
+        .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        #sortable1,
+        #sortable2,
+        #sortable3 {
+            border: 1px solid #eee;
+            width: 142px;
+            min-height: 20px;
+            list-style-type: none;
+            margin: 0;
+            padding: 5px 0 0 0;
+            float: left;
+            margin-right: 10px;
+        }
+
+        #sortable1 li,
+        #sortable2 li,
+        #sortable3 li {
+            margin: 0 5px 5px 5px;
+            padding: 5px;
+            font-size: 1.2em;
+            width: 120px;
+        }
+
+        #content {
+            display: flex;
+            margin: 20px;
+        }
+        #loadButton{
+            margin: 0 10px;
+        }
+    </style>
+
+</body>
+
+</html>
