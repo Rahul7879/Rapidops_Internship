@@ -20,6 +20,7 @@ const App = () => {
 
   useEffect(() => {
     setTree(buildTree(data));
+
   }, [data]);
 
   const addNode = async parentID => {
@@ -97,9 +98,53 @@ const App = () => {
     });
   };
 
+  const mergeNode = (nodeToMergeId) => {
+    let targetNodeName = prompt("Enter the name of the new parent node:");
+    if (!targetNodeName) {
+      alert("Node name cannot be empty.");
+      return;
+    }
+    
+    const targetNode = data.find(node => node.name === targetNodeName);
+    if (!targetNode) {
+      alert("Target node not found.");
+      return;
+    }
+
+    let currentNode = targetNode;
+    while (currentNode) {
+      if (currentNode.id === nodeToMergeId) {
+        alert("Cannot merge a node with itself or into one of its descendants.");
+        return;
+      }
+      currentNode = data.find(node => node.id === currentNode.parentnodeId);
+    }
+
+    let newData = data.map(node => {
+      if (node.parentnodeId === nodeToMergeId) {
+        return { ...node, parentnodeId: targetNode.id };
+      }
+      return node;
+    });
+
+    newData = newData.filter(node => node.id !== nodeToMergeId);
+    setData(newData); 
+
+    axios.patch('http://localhost:4500/merge', {
+      id:nodeToMergeId,
+      targetNode: targetNode.id
+  }).then((res) => {
+    toast.success("Node moved successfully")
+  }).catch((err) => {
+      toast.error("not move")
+  });
+
+  };
+  
+
   return (
     <div className="tree">
-      <RenderTree nodes={tree} addNode={addNode} deleteNode={deleteNode} moveNode={moveNode} />
+      <RenderTree nodes={tree} addNode={addNode} deleteNode={deleteNode} moveNode={moveNode} mergeNode={mergeNode} />
       <Toaster />
     </div>
   );
