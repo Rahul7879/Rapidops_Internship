@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower of Hanoi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <h1 class="game-title">Tower Of Hanoi</h1>
+        <h3>Number of Plates: <input type="text" id="plateCount" placeholder="Insert Number of Plates"> <button
+                onclick="getInput()">Insert</button></h3>
+        <h3 class="game-moves">Moves: <span id="move-count"></span></h3>
+        <div class="rods">
+            <div class="rod" id="rod1"></div>
+            <div class="rod" id="rod3"></div>
+            <div class="rod" id="rod2"></div>
+        </div>
+    </div>
+    <div class="btns">
+        <button class="next-btn" onclick="counter()">Next</button>
+        <button class="next-btn" onclick="autoRun()">auto</button>
+        <select name="speed" id="speed">
+            <option value="1.0">1</option>
+            <option value="0.25">0.25</option>
+            <option value="0.50">0.50</option>
+            <option value="1.5">1.5</option>
+            <option value="2.0">2.0</option>
+            <option value="3.0">3.0</option>
+            <option value="4.0">4.0</option>
+            <option value="5.0">5.0</option>
+
+        </select>
+    </div>
+
+    <script src="./index.js"></script>
+</body>
+
+</html>

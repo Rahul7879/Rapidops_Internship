@@ -1,0 +1,131 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    background-color: #282c34;
+    color: white;
+    font-family: 'Arial', sans-serif;
+}
+
+.game-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+}
+
+.game-title,
+.game-moves {
+    text-align: center;
+}
+
+#plateCount {
+    margin-left: 10px;
+    background-color: #333;
+    border: 1px solid #777;
+    color: white;
+    padding: 5px;
+    width: 150px;
+    border-radius: 5px;
+}
+
+button {
+    margin-left: 10px;
+    background-color: #ffa726;
+    color: #282c34;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #fb8c00;
+}
+
+.rods {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.rod {
+    background-color: #556;
+    width: 20px;
+    height: 350px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 20px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.rod:hover {
+    transform: scale(1.05);
+    z-index: 10;
+}
+
+.disk {
+    position: relative;
+    height: 30px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    margin: 5px 0;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to right, #ffa726, #fb8c00);
+}
+
+.btns {
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+}
+
+.next-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ffa726;
+    color: #282c34;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.next-btn:hover {
+    background-color: #fb8c00;
+}
+
+select {
+    margin-left: 10px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #777;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #ffa726;
+}
+
+select option {
+    background-color: #282c34;
+    color: white;
+}
