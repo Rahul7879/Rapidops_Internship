@@ -1,0 +1,20 @@
+{
+    "rahul": {
+        "password": {
+            "salt": "75423e48652f0ec5d7a6689934c6a3b4",
+            "hashedPassword": "9c554e20ab533f7750b8ec4a7f1dfef8ef7e33c6acf5c7cccbae2b58d52d8b17"
+        }
+    },
+    "aditya": {
+        "password": {
+            "salt": "2c74849964b8c3841fc6240623f9a1e1",
+            "hashedPassword": "6aeb84d9295fa5008f98cafb65a539b88a517bb6587a7774b7e6e1f8691e325b"
+        }
+    },
+    "raj": {
+        "password": {
+            "salt": "7d709e5833eff0aa960f38ba9bfe7100",
+            "hashedPassword": "86289c112958f3dc28b44028602d5b4752c9bfd3015f2dd5a9f0a369ed1f0e70"
+        }
+    }
+}
