@@ -2,8 +2,8 @@
     const fs = require("fs");
     const { join } = require("path");
   
-    const readFileName = "SIMPLETEXTFILE.txt";
-    const writeFileName = "ONEWORD.txt";
+    const readFileName = "text.txt";
+    const writeFileName = "oneword.txt";
   
     const readableStream = fs.createReadStream(join(__dirname, readFileName), {
       highWaterMark: 1024,
@@ -13,8 +13,7 @@
     let incompleteLine = "";
   
     readableStream.on("data", (chunk) => {
-      console.log("***********************chunk received**********************");
-  
+      
       const currentData = incompleteLine + chunk.toString();
       const lines = currentData.split("\n");
       incompleteLine = lines.pop();
@@ -24,6 +23,7 @@
         writableStream.write(`${line.split(' ').join('\n')}`);
       }
     });
+    
   })();
   
   // 2. create duplicate of a directory

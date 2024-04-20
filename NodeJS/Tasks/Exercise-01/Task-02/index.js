@@ -5,46 +5,46 @@ const { stdin: input, stdout: output } = require('process');
 const rl = readline.createInterface({ input, output });
 
 
-const encryption_key = "byz9VFNtbRQM0yBODcCb1lrUtVVH3D3x";
-const initialization_vector = "X05IGQ5qdBnIqAWD";
-
-let incrptPassword = (password) => {
-    const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(encryption_key), Buffer.from(initialization_vector))
-    var crypted = cipher.update(password, 'utf8', 'hex')
-    crypted += cipher.final('hex')
-    return crypted
+function generateSalt(length = 16) {
+    return crypto.randomBytes(length).toString('hex');
 }
 
-let decryptPassword = (hashedPassword) => {
-    const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(encryption_key), Buffer.from(initialization_vector))
-    let dec = decipher.update(hashedPassword, 'hex', 'utf8')
-    dec += decipher.final('utf8')
-    return dec
+function hashPassword(password) {
+    let salt = generateSalt()
+    const hash = crypto.createHmac('sha256', salt);
+    hash.update(password);
+    const value = hash.digest('hex');
+    return {
+        salt: salt,
+        hashedPassword: value
+    };
 }
 
+function verifyPassword(storedHash, storedSalt, passwordToVerify) {
+    const hash = crypto.createHmac('sha256', storedSalt);
+    hash.update(passwordToVerify);
+    const value = hash.digest('hex');
+    return value === storedHash;
+}
 
 let userSignup = (username, password) => {
     fs.readFile("./dataBase.json", "utf-8", (err, data) => {
         let dataBase = {}
         if (err) {
-            dataBase[username] = { password: incrptPassword(password) }
-            console.log(JSON.stringify(dataBase));
+            dataBase[username] = { password: hashPassword(password) }
             fs.writeFile('./dataBase.json', JSON.stringify(dataBase), () => {
                 console.log("new db file created");
             })
         } else {
             dataBase = JSON.parse(data);
-
             if (dataBase[username] !== undefined) {
                 console.log("user already exists")
                 return;
             } else {
-                dataBase[username] = { password: incrptPassword(password) }
-                console.log(JSON.stringify(dataBase));
+                dataBase[username] = { password: hashPassword(password) }
                 fs.writeFile('./dataBase.json', JSON.stringify(dataBase), () => {
-                    console.log("user added");
+                    console.log("Congratulations! Sign up complete")
                 })
-                console.log("sigup successfully")
             }
         }
     })
@@ -58,7 +58,9 @@ let userLogin = (username, password) => {
             console.log("User Not Exists!");
             return
         } else {
-            if (password === decryptPassword(dataBase[username].password)) {
+            let hashPassword = dataBase[username].password.hashedPassword;
+            let salt = dataBase[username].password.salt;
+            if (verifyPassword(hashPassword, salt, password)) {
                 console.log("Welcome", username);
             } else {
                 console.log("Wrong password")
