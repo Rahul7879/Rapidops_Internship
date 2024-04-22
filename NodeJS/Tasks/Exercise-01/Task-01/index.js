@@ -23,6 +23,7 @@ fs.mkdir("Output", { recursive: true }, (err) => {
         for (const [char, count] of map) {
             let n = "./Output/" + count+"/";
             let newone = path.join(__dirname,n+char+".txt");
+            
             if (!arr[count]) {
                 arr[count] = {};
                 arr[count][char+".txt"] = path.relative(__dirname, path.join(__dirname,n,`${char}.txt`));
