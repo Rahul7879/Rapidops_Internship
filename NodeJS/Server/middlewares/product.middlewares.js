@@ -1,5 +1,5 @@
 function logMiddleware(req, res, next) {
-    console.log(`Request to ${req.url} received`);
+    console.log(`Request to ${req.url} received in middleware`);
     next();
 }
 

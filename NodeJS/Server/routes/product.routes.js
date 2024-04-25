@@ -8,7 +8,7 @@ function setupRoutes(router) {
     router._put('/product', middlewares.authMiddleware, controllers.deleteController);
     router._patch('/product', controllers.putController);
     router._delete('/product', controllers.patchController);
-    router._get('/product/:id', controllers.patchController);
+    router._get('/product/:name/:id', controllers.getController);
 }
 
 module.exports = setupRoutes;

@@ -1,5 +1,10 @@
 exports.getController = (req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
+    console.log(req.body , "body comming")
+    console.log(req.files , "file comming")
+    console.log(req.params , "params comming")
+    console.log(req.queryParams , "queryparams comming")
+
     res.end('GET request called - Product');
     console.log(req.url);
 };
