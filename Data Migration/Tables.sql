@@ -1,89 +1,85 @@
-DROP TABLE IF EXISTS `migration_entries`;
+DROP TABLE IF EXISTS `MigrationEntities`;
 
-CREATE TABLE `migration_entries` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `total_records` int DEFAULT NULL,
-  `data_provider` varchar(255) DEFAULT NULL,
-  `module_id` int DEFAULT NULL,
-  `module` varchar(255) DEFAULT NULL,
-  `isCompleted` tinyint(1) DEFAULT '0',
-  `isActive` tinyint(1) DEFAULT '1',
-  `metas` text,
-  `migration_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `migration_id` (`migration_id`),
-  KEY `idx_data_provider` (`data_provider`),
-  KEY `idx_module` (`module`),
-  KEY `idx_isCompleted` (`isCompleted`),
-  KEY `idx_isActive` (`isActive`),
-  CONSTRAINT `migration_entries_ibfk_1` FOREIGN KEY (`migration_id`) REFERENCES `migration_logs` (`id`)
+CREATE TABLE `MigrationEntities` (
+  `MigrationEntityID` int NOT NULL AUTO_INCREMENT,
+  `TotalRecords` int DEFAULT NULL,
+  `DataProvider` varchar(255) DEFAULT NULL,
+  `ModuleID` int DEFAULT NULL,
+  `Module` varchar(255) DEFAULT NULL,
+  `ModuleDescription` text,
+  `IsCompleted` tinyint(1) DEFAULT '0',
+  `IsActive` tinyint(1) DEFAULT '1',
+  `Metas` text,
+  `MigrationID` int DEFAULT NULL,
+  `LastActivity` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`MigrationEntityID`),
+  KEY `MigrationID` (`MigrationID`),
+  CONSTRAINT `MigrationEntities_ibfk_1` FOREIGN KEY (`MigrationID`) REFERENCES `MigrationLogs` (`MigrationLogID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-LOCK TABLES `migration_entries` WRITE;
+LOCK TABLES `MigrationEntities` WRITE;
 UNLOCK TABLES;
-DROP TABLE IF EXISTS `migration_logs`;
+DROP TABLE IF EXISTS `MigrationLogs`;
 
-CREATE TABLE `migration_logs` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `status` varchar(50) DEFAULT NULL,
-  `source` varchar(255) DEFAULT NULL,
-  `canRevert` tinyint(1) DEFAULT '0',
-  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
-  `lastModified` datetime DEFAULT NULL,
-  `lastModifiedBy` varchar(255) DEFAULT NULL,
-  `skippedRecords` int DEFAULT '0',
-  `updatedRecords` int DEFAULT '0',
-  `mergedRecords` int DEFAULT '0',
-  `addedRecords` int DEFAULT '0',
-  `completedAt` datetime DEFAULT NULL,
-  `isCompleted` tinyint(1) DEFAULT '0',
-  `isDeleted` tinyint(1) DEFAULT '0',
-  `isReverted` tinyint(1) DEFAULT '0',
-  `isRevertInProgress` tinyint(1) DEFAULT '0',
-  `transferring` tinyint(1) DEFAULT '0',
-  `revert` varchar(255) DEFAULT NULL,
-  `notes` text,
-  `processDetails` text,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `idx_status` (`status`),
-  KEY `idx_source` (`source`),
-  KEY `idx_isCompleted` (`isCompleted`),
-  KEY `idx_isDeleted` (`isDeleted`),
-  CONSTRAINT `migration_logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+CREATE TABLE `MigrationLogs` (
+  `MigrationLogID` int NOT NULL AUTO_INCREMENT,
+  `UserID` int DEFAULT NULL,
+  `Status` varchar(50) DEFAULT NULL,
+  `Source` varchar(255) DEFAULT NULL,
+  `CanRevert` tinyint(1) DEFAULT '0',
+  `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `LastModified` datetime DEFAULT NULL,
+  `LastModifiedBy` varchar(255) DEFAULT NULL,
+  `SkippedRecords` int DEFAULT '0',
+  `UpdatedRecords` int DEFAULT '0',
+  `MergedRecords` int DEFAULT '0',
+  `AddedRecords` int DEFAULT '0',
+  `CompletedAt` datetime DEFAULT NULL,
+  `IsCompleted` tinyint(1) DEFAULT '0',
+  `IsDeleted` tinyint(1) DEFAULT '0',
+  `IsReverted` tinyint(1) DEFAULT '0',
+  `IsRevertInProgress` tinyint(1) DEFAULT '0',
+  `Transferring` tinyint(1) DEFAULT '0',
+  `RevertDetails` varchar(255) DEFAULT NULL,
+  `Notes` text,
+  `ProcessDetails` text,
+  `MigrationType` varchar(50) DEFAULT NULL,
+  `Description` text,
+  PRIMARY KEY (`MigrationLogID`),
+  KEY `UserID` (`UserID`),
+  CONSTRAINT `MigrationLogs_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
-LOCK TABLES `migration_logs` WRITE;
+LOCK TABLES `MigrationLogs` WRITE;
 UNLOCK TABLES;
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `Users`;
 
-CREATE TABLE `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `role` varchar(255) NOT NULL,
-  `phone` varchar(20) NOT NULL,
-  `user_type` varchar(50) DEFAULT NULL,
-  `account_status` varchar(50) DEFAULT 'active',
-  `last_login` datetime DEFAULT NULL,
-  `profile_picture` varchar(255) DEFAULT NULL,
-  `region` varchar(50) DEFAULT NULL,
-  `language` varchar(50) DEFAULT NULL,
-  `isActive` tinyint(1) NOT NULL DEFAULT '1',
-  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  KEY `idx_role` (`role`),
-  KEY `idx_user_type` (`user_type`),
-  KEY `idx_region` (`region`),
-  KEY `idx_language` (`language`),
-  KEY `idx_account_status` (`account_status`)
+CREATE TABLE `Users` (
+  `UserID` int NOT NULL AUTO_INCREMENT,
+  `Name` varchar(255) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `Email` varchar(255) NOT NULL,
+  `Role` varchar(255) NOT NULL,
+  `Phone` varchar(20) NOT NULL,
+  `UserType` varchar(50) DEFAULT NULL,
+  `AccountStatus` varchar(50) DEFAULT 'active',
+  `LastLogin` datetime DEFAULT NULL,
+  `ProfilePicture` varchar(255) DEFAULT NULL,
+  `Region` varchar(50) DEFAULT NULL,
+  `Language` varchar(50) DEFAULT NULL,
+  `IsActive` tinyint(1) NOT NULL DEFAULT '1',
+  `EmailVerified` tinyint(1) NOT NULL DEFAULT '0',
+  `Address` varchar(255) DEFAULT NULL,
+  `City` varchar(50) DEFAULT NULL,
+  `State` varchar(50) DEFAULT NULL,
+  `PostalCode` varchar(20) DEFAULT NULL,
+  `Country` varchar(50) DEFAULT NULL,
+  `CreatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`UserID`),
+  UNIQUE KEY `Email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-LOCK TABLES `users` WRITE;
+LOCK TABLES `Users` WRITE;
 UNLOCK TABLES;
 
