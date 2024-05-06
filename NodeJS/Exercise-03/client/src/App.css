@@ -1,0 +1,81 @@
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form label {
+  margin-bottom: 5px;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"],
+.login-form input[type="checkbox"],
+.login-form button {
+  margin-bottom: 10px;
+}
+
+.login-form button {
+  cursor: pointer;
+  background-color: #0056b3;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.login-form button:hover {
+  background-color: #004494;
+}
+
+.link-container {
+  margin-top: 10px;
+}
+
+.google-btn {
+  background-color: #dd4b39;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.google-btn:hover {
+  background-color: #c23321;
+}
+.div-contain{
+display: flex;
+flex-direction: column;
+}
+.hr-lines::before{
+  border-bottom: 1px solid #EDF0F7;
+  position: absolute;
+  content: "";
+  width: 140px;
+  left: 40%;
+  height: 13px;
+  margin-top:"2px"
+}
+.hr-lines::after{
+  border-bottom: 1px solid #EDF0F7;
+  position: absolute;
+  content: "";
+  width: 140px;
+  left: 53%;
+  height: 13px;
+  margin-top:"2px"
+}
+a{
+  text-decoration: none;
+}
