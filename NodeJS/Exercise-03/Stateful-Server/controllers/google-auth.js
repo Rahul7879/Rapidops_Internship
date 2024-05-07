@@ -3,6 +3,7 @@ const https = require('https');
 const jwt = require("jsonwebtoken");
 const ResponseHandler = require('../utilities/response');
 const pool = require("../db/conn.js");
+const {createSession} = require('./session.js')
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -107,9 +108,13 @@ const AuthToCallback = async (req, res) => {
                 const query = 'INSERT INTO users (email,fullName) VALUES (?,?)';
                 await pool.execute(query, [userInfo.email, userInfo.name]);
             }
-
-            const accessToken = jwt.sign({ email: userInfo.email }, SECRET_KEY, { expiresIn: '24h' });
-            res.setHeader('Set-Cookie', `accessToken=${accessToken}; Path=/; HttpOnly; SameSite=None; Secure`);
+            const token = jwt.sign({ email: userInfo.email }, SECRET_KEY, { expiresIn: '24h' });
+            const sessionId = await createSession(token);
+            
+            res.setHeader(
+                'Set-Cookie',
+                `accessToken=${sessionId}; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=${process.env.COOKIE_AGE}`
+              );
             res.writeHead(302, { 'Location': 'http://localhost:3000/' });
             res.end();
         } catch (e) {
