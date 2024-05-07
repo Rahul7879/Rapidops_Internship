@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const ejs = require('ejs');
 const pool = require('../db/conn.js');
 const nodemailer = require('nodemailer');
 const ResponseHandler = require('../utilities/response');
@@ -56,20 +55,13 @@ const getResetPassword = async (req, res) => {
 
   try {
     const filePath = path.join(path.dirname(__dirname),'view', 'index.html');
-    console.log(filePath);
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
         console.error("Error reading HTML file:", err);
         return ResponseHandler.sendError(res, { msg: 'Error while processing your request', error: err.message }, 500);
       }
-
-      const replacedHtml = data
-        .replace('{{userId}}', id)
-        .replace('{{id}}', id)
-        .replace('{{token}}', token);
-
       res.writeHead(200, { 'Content-Type': 'text/html' });
-      res.end(replacedHtml);
+      res.end(data);
     });
   } catch (error) {
     ResponseHandler.sendError(res, { msg: 'Error while processing your request', error: error.message }, 500);

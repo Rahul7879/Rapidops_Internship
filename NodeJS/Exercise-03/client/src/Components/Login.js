@@ -15,6 +15,7 @@ function Login() {
       try {
         const { data } = await axios.get('http://localhost:8000/get-auth-url');
         setAuthUrl(data.data.url);  
+
       } catch (error) {
         console.error('Error fetching auth URL:', error);
       }
