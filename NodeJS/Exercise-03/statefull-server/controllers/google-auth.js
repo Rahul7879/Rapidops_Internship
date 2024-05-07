@@ -126,8 +126,18 @@ const AuthToCallback = async (req, res) => {
     }
 };
 
-const getAuthUrlFunction = (req, res) => {
+const getAuthUrlFunction = async (req, res) => {
     try {
+        const cookie = req.headers.cookie;
+        const token = cookie ? cookie.split('=')[1] : null;
+   
+        if (token && token.length > 10) {
+             const isLogedIn = await checkUser(token)
+            if(isLogedIn){
+               ResponseHandler.sendSuccess(res, { msg:"logedin" }, 207);
+               return;
+            }
+        }
         const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?scope=${encodeURIComponent(SCOPES.join(' '))}&access_type=offline&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&client_id=${CLIENT_ID}`;
         ResponseHandler.sendSuccess(res, { url: authUrl }, 200);
     } catch (error) {
@@ -135,5 +145,15 @@ const getAuthUrlFunction = (req, res) => {
         ResponseHandler.sendError(res, { msg: 'Failed to generate auth URL', error: error.message }, 500);
     }
 };
+
+const checkUser = async (token)=>{
+    const query = 'SELECT * FROM sessions WHERE sessionId = ? LIMIT 1';
+    const [users] = await pool.query(query, [token]);
+    if(users[0].length === 0){
+        return false;
+    }
+    return true;
+}
+
 
 module.exports = { AuthToCallback, getAuthUrlFunction };

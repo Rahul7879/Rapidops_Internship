@@ -57,21 +57,36 @@
 <body>
   <div class="container">
     <h1>Password Reset</h1>
-    <form action="" method="post">
+    <form action="" method="post" onsubmit="return validateForm()">
       <input
         type="password"
         name="password"
         id="password"
         placeholder="Enter new password"
+        minlength="6"
+        required
       />
       <input
         type="password"
         name="confirmPassword"
         id="confirmPassword"
         placeholder="Confirm new password"
+        minlength="6"
+        required
       />
       <input type="submit" value="Reset Password" />
     </form>
+    <script>
+      function validateForm() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        if (password !== confirmPassword) {
+          alert("Passwords do not match.");
+          return false;
+        }
+        return true;
+      }
+    </script>
   </div>
 </body>
 </html>

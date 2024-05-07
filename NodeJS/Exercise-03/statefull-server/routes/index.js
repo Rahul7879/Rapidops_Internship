@@ -12,7 +12,7 @@ function setupRoutes(router) {
     router._post('/reset-password/:id/:token',postResetPassword)
     router._get('/reset-password/:id/:token',getResetPassword)
     router._get('/oauth2callback',AuthToCallback)
-    router._get('/get-auth-url',getAuthUrlFunction)
+    router._post('/get-auth-url',getAuthUrlFunction)
 }
 
 module.exports = setupRoutes;

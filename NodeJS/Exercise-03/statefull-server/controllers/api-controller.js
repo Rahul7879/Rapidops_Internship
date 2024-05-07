@@ -3,18 +3,26 @@ const jwt = require('jsonwebtoken');
 const ResponseHandler = require('../utilities/response.js');
 const pool = require('../db/conn.js')
 const {createSession}  = require('./session.js')
+const {validateEmail,validateFullName,validatePassword} = require("../utilities/validations.js")
 
 const SECRET_KEY = process.env.SECRET_KEY;  
 
 const signupUser = async (req, res) => {
     try {
-        const user = {
-            email: req.body.email,
-            password: req.body.password
-        };
+        const { email, password, fullName } = req.body;
+
+        if (!validateEmail(email)) {
+            return ResponseHandler.sendError(res, { msg: 'Invalid email format' }, 400);
+        }
+        if (!validatePassword(password)) {
+            return ResponseHandler.sendError(res, { msg: 'Password must be at least 6 characters long' }, 400);
+        }
+        if (!validateFullName(fullName)) {
+            return ResponseHandler.sendError(res, { msg: 'Full name must not contain numbers' }, 400);
+        }
          
         const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(`${user.password}`, salt);
+        const hashPassword = await bcrypt.hash(`${password}`, salt);
 
         const checkTableQuery = "SHOW TABLES LIKE 'users'";
         const [tables] = await pool.execute(checkTableQuery);
@@ -32,14 +40,14 @@ const signupUser = async (req, res) => {
         }
 
         const query = 'INSERT INTO users (email, password, fullName) VALUES (?,?,?)';
-        await pool.execute(query, [user.email, user.password, req.body.fullName]);
+        await pool.execute(query, [email, hashPassword, fullName]);
         
-        const token = jwt.sign({
-            email: user.email
+        const token = await jwt.sign({
+            email: email
         }, SECRET_KEY, { expiresIn: '6h' }); 
-        
+       
         const sessionId = await createSession(token);
-            
+        
         res.setHeader(
             'Set-Cookie',
             `accessToken=${sessionId}; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=${process.env.COOKIE_AGE}`
