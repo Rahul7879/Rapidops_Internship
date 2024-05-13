@@ -8,7 +8,7 @@ const sendMail = async (email,user_id,role_id) => {
   try {
     const token = jwt.sign({ email: email, user_id: user_id,role_id:role_id }, SECRET_KEY, { expiresIn: '6h' });
 
-    const resetLink = `http://localhost:${process.env.PORT}/invite/${user_id}/${token}`;
+    const requestLink = `http://localhost:${process.env.PORT}/invite/${user_id}/${token}`;
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -21,8 +21,8 @@ const sendMail = async (email,user_id,role_id) => {
     const mailOptions = {
       from: process.env.USER_NAME,
       to: email,
-      subject: "Password Reset",
-      text: `Please follow this link to reset your password: ${resetLink}`,
+      subject: "Invitation",
+      text: `Please follow this link acceept Request: ${requestLink}`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

@@ -7,7 +7,7 @@ function setupRoutes(router) {
     router._post('/tenant/:tenant_id/:role_id',verifyUser,assignFoldersToRole)
     router._post('/tenant/:tenant_id/:role_id/assigned-folders',verifyUser,getAllAssignedFolders)
     router._delete('/folder/:folder_id',verifyUser,deleteFolder)
-    router._patch('/folder/:folder_id/:parent_folder_id',verifyUser,moveFolder)
+    router._patch('/folder/:folder_id',verifyUser,moveFolder)
 }
 
 module.exports = setupRoutes;
