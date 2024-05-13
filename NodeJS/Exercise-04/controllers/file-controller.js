@@ -1,73 +1,64 @@
-const fs = require("fs");
-const bcrypt = require("bcrypt");
-const dbcon = require("../db/conn.js")
-const ResponseHandler = require('../utilities/response.js');
+const { sendSuccess, sendError } = require('../utilities/response.js');
+const pool = require('../db/conn.js');
 
-exports.getAllUsers = async (req, res) => {
+const uploadFile = async (req, res) => {
     try {
-        const conn = await dbcon();
-        const query = 'SELECT * FROM user';
-        const [results] = await conn.query(query);
-       console.log(results,"coming")
-        if (results.length === 0) {
-            let data = { msg: 'No Data' }
-            ResponseHandler.sendSuccess(res, data);
-        } else {
-            let data = { msg: 'Received',users: results }
-            ResponseHandler.sendSuccess(res, data);
+        const { folderId, fileName } = req.body;
+        // const fileContent = req.files.file[0].originalFileName; 
+    
+        console.log(folderId,fileName)
+
+        if (!folderId || !fileName ) {
+            return sendError(res, { msg: 'Missing required file data' }, 400);
         }
+
+        const insertFileQuery = 'INSERT INTO files (folder_id, name) VALUES (?, ?)';
+        await pool.query(insertFileQuery, [folderId, fileName]);
+
+        sendSuccess(res, { msg: 'File uploaded successfully' }, 201);
     } catch (e) {
         console.error(e);
-        let data = { msg: 'Error' }
-        ResponseHandler.sendSuccess(res,data,404);
+        sendError(res, { msg: 'Error uploading file', error: e.message }, 500);
     }
 };
 
-exports.addUser = async (req, res) => {
+const deleteFile = async (req, res) => {
     try {
-        const salt = await bcrypt.genSalt();
-        console.log("Hello",req.body)
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-        const user = { email: req.body.email, name: req.body.name, password: hashedPassword};
-        const conn = await dbcon();
-        const query = 'INSERT INTO user (name, email, password) VALUES (?, ?, ?)';
-        const [queryResult] = await conn.query(query, [user.name, user.email, user.password]);
-        console.log(queryResult.data);
-        let data = { msg: 'SignUp successful' }
-        ResponseHandler.sendSuccess(res, data);
+        const { file_id } = req.params;
+        console.log(file_id);
+
+        if (!file_id) {
+            return sendError(res, { msg: 'File ID is required' }, 400);
+        }
+
+        const deleteFileQuery = 'DELETE FROM files WHERE file_id = ?';
+        await pool.query(deleteFileQuery, [file_id]);
+
+        sendSuccess(res, { msg: 'File deleted successfully' }, 200);
     } catch (e) {
         console.error(e);
-        let data = { msg: 'SignUp Unsuccessfull' }
-        ResponseHandler.sendSuccess(res,data,404);
+        sendError(res, { msg: 'Error deleting file', error: e.message }, 500);
     }
-
 };
 
-exports.deleteController = async (req, res) => {
+
+const moveFile = async (req, res) => {
     try {
-        const conn = await dbcon();
-        console.log(req.params.id);
-        const [result] = await conn.execute('DELETE FROM user WHERE id = ?', [req.params.id]);
-        if (result.affectedRows === 0) {
-            let data = { msg: 'No user available with this id' }
-            ResponseHandler.sendError(res, data);
-        }else{
-            let data = { msg: 'Page successfully deleted.',deletedUser:result }
-            ResponseHandler.sendSuccess(res, data);
+        const { fileId, newFolderId } = req.params;
+
+        if (!fileId || !newFolderId) {
+            return sendError(res, { msg: 'File ID and new folder ID are required' }, 400);
         }
-      } catch (e) {
+
+        const updateFileQuery = 'UPDATE files SET folder_id = ? WHERE file_id = ?';
+        await pool.query(updateFileQuery, [newFolderId, fileId]);
+
+        sendSuccess(res, { msg: 'File moved successfully' }, 200);
+    } catch (e) {
         console.error(e);
-        let data = { msg: 'Page not deleted.' }
-            ResponseHandler.sendError(res, data);
-      }
+        sendError(res, { msg: 'Error moving file', error: e.message }, 500);
+    }
 };
 
-exports.putController = (req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('PUT request called - User');
-};
 
-exports.patchController = (req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('PATCH request called - User');
-};
+module.exports = {uploadFile,deleteFile,moveFile};

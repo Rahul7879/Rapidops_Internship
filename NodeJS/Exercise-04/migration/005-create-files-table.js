@@ -3,13 +3,14 @@
 module.exports = {
   up: async ({ context: queryInterface }) => {
     const createTableQuery = `
-    CREATE TABLE folder_permissions (
+    CREATE TABLE files (
+        file_id INT AUTO_INCREMENT PRIMARY KEY,
         folder_id INT,
-        tanant_id INT,
-        FOREIGN KEY (tanant_id) REFERENCES users(user_id),
-        PRIMARY KEY (folder_id, user_id)
-    );
-    `;
+        name VARCHAR(255) NOT NULL,
+        content LONGBLOB,
+        FOREIGN KEY (folder_id) REFERENCES folders(folder_id) ON DELETE CASCADE
+        );
+        `;
 
     await queryInterface.sequelize.query(createTableQuery);
   },

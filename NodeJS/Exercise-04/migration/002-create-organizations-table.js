@@ -4,10 +4,10 @@ module.exports = {
   up: async ({ context: queryInterface }) => {
     const createTableQuery = `
     CREATE TABLE organizations (
-        tanant_id INT AUTO_INCREMENT PRIMARY KEY,
-        owner_id INT NOT NULL,
-        email_id VARCHAR(255) NOT NULL,
-        name VARCHAR(255) NOT NULL,
+        tenant_id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255),
+        admin_id INT NOT NULL,
+        FOREIGN KEY (admin_id) REFERENCES users(user_id)
     );
     `;
 

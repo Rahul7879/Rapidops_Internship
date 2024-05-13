@@ -3,14 +3,16 @@
 module.exports = {
   up: async ({ context: queryInterface }) => {
     const createTableQuery = `
-    CREATE TABLE folder_permissions (
-        folder_id INT,
+      CREATE TABLE roles (
+        role_id INT PRIMARY KEY AUTO_INCREMENT,
+        role_name VARCHAR(255) NOT NULL,
+        tenant_id int NOT NULL,
+        permissions VARCHAR(10) DEFAULT '1000',
         user_id INT,
-        permissions VARCHAR(255), 
-        FOREIGN KEY (folder_id) REFERENCES folders(folder_id),
-        FOREIGN KEY (user_id) REFERENCES users(user_id),
-        PRIMARY KEY (folder_id, user_id)
-    );
+        folders JSON,
+        status VARCHAR(255) DEFAULT 'empty',
+        FOREIGN KEY (tenant_id) REFERENCES organizations(tenant_id)
+      );
     `;
 
     await queryInterface.sequelize.query(createTableQuery);

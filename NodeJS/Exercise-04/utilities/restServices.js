@@ -24,9 +24,7 @@ const handleFormData = async (req, res, method) => {
             } else {
                 const body = await readBody(req);
                 if (contentType === 'application/json') {
-                    console.log("ok this line", body)
                     req.body = JSON.parse(body);
-                    console.log(req.body);
                 } else if (contentType === 'application/x-www-form-urlencoded') {
                     req.body = parseQuery(body);
                 }
@@ -74,16 +72,14 @@ const extractParams = (match, paramNames) => {
 }
 
 const getParams = (req, allUrl, url) => {
-    console.log("allurl", allUrl)
     for (let pattern of allUrl) {
         const paramNames = [];
         const regex = convertPathToRegex(pattern, paramNames);
         const match = url.match(regex);
-        console.log("pattern", pattern, paramNames, match)
+        
 
         if (match) {
             let a = extractParams(match, paramNames);
-            console.log("a", a);
             req.params = a;
             return pattern;
         }

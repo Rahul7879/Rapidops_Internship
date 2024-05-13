@@ -2,7 +2,7 @@ const { Sequelize } = require("sequelize");
 const { Umzug, SequelizeStorage } = require("umzug");
  
 const sequelize = new Sequelize({
-  database: 'migration',
+  database: 'exercise_04',
   username: 'rahul',
   password: 'Rahul@123',
   host: 'localhost',

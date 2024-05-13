@@ -10,9 +10,12 @@
   "author": "Rahul Singh Rajput",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
     "formidable": "^3.5.1",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.7",
+    "nodemailer": "^6.9.13",
     "nodemon": "^3.1.0",
     "sequelize": "^6.37.3",
     "umzug": "^3.8.0",
