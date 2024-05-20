@@ -16,7 +16,7 @@ async function checkExistingOrganization(adminId) {
 async function createAdminRole(userId, tenantId) {
     const query = 'INSERT INTO roles (user_id, role_name, tenant_id, permissions,status) VALUES (?, ?, ?, ?,"active")';
     try {
-        
+
         const tenantIdInt = parseInt(tenantId, 10);
         console.log("Attempting to create admin role with userID:", userId, "and tenantID:", tenantIdInt);
 
@@ -24,7 +24,7 @@ async function createAdminRole(userId, tenantId) {
         console.log("Admin role created successfully.");
     } catch (error) {
         console.error("Error creating admin role:", error.message, { userId, tenantId });
-        throw error; 
+        throw error;
     }
 }
 
@@ -40,13 +40,13 @@ async function createOrganizationAndSetTenant(userId, orgName) {
         const updateUserQuery = 'UPDATE users SET my_tenant = ? WHERE user_id = ?';
         await connection.query(updateUserQuery, [newOrgId, userId]);
 
-        
+
         await connection.commit();
-        await createAdminRole(userId,newOrgId);
+        await createAdminRole(userId, newOrgId);
         console.log("hello")
         return newOrgId;
     } catch (error) {
-        await connection.rollback(); 
+        await connection.rollback();
         console.error('Failed to create organization and set tenant:', error);
         throw error;
     } finally {

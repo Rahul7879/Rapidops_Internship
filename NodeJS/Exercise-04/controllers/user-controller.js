@@ -28,7 +28,7 @@ const signupUser = async (req, res) => {
         
         const token = jwt.sign({
             email: email
-        }, SECRET_KEY, { expiresIn: '1h' }); 
+        }, SECRET_KEY, { expiresIn: '1h' });
 
         res.setHeader(
             'Set-Cookie',
@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
     try {
         const {email,password} = req.body;
 
-        const query = 'SELECT email, password,my_tenant,added_in FROM users WHERE email = ? LIMIT 1';
+        const query = 'SELECT email, password,my_tenant,added_in,user_id FROM users WHERE email = ? LIMIT 1';
         const [users] = await pool.query(query, [email]);
 
         if (users.length === 0) {
@@ -61,16 +61,14 @@ const loginUser = async (req, res) => {
 
         const user = users[0];
 
-        console.log(user);
         if(user.password === null){
             sendError(res, { msg: 'Password is Not Setted yet change your password' }, 401);
             return;
         }
         const match = await bcrypt.compare(`${password}`, user.password); 
-
         if (match) {
             const token = jwt.sign({
-                userId: user.id,
+                userId: user.user_id,
                 email: user.email
             }, SECRET_KEY, { expiresIn: req.body.rememberMe ? "7d" : '1h' }); 
             
@@ -88,4 +86,40 @@ const loginUser = async (req, res) => {
     }
 };
 
-module.exports = {signupUser,loginUser}
+const loginInTenant = async (req, res) => {
+    try {
+        const { tenantId } = req.params;
+        const { email, userId } = req.user;
+
+        const query = 'SELECT role_id, permissions, role_name FROM roles WHERE user_id = ? AND tenant_id = ? LIMIT 1';
+        const [users] = await pool.query(query, [userId, tenantId]);
+
+        if (users.length === 0) {
+             sendError(res, { msg: 'User does not have access to this tenant' }, 403);
+            return;
+        }
+
+        const user = users[0];
+        
+        const token = jwt.sign({
+            userId: userId,
+            email: email,
+            tenantId: +tenantId,
+            permissions: user.permissions,
+            isAdmin:user.role_name === "admin",
+            roleId: user.role_id
+        }, SECRET_KEY, { expiresIn: '1h' });
+
+        res.setHeader(
+            'Set-Cookie',
+            `accessToken=${token}; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=${process.env.COOKIE_AGE}`
+        );
+        sendSuccess(res, { msg: 'Tenant login successful', tenantId: tenantId }, 200);
+    } catch (error) {
+        console.error("Tenant login error:", error.message);
+        sendError(res, { msg: 'Error while logging in to tenant', error: error.message }, 500);
+    }
+}
+
+
+module.exports = {signupUser,loginUser,loginInTenant}

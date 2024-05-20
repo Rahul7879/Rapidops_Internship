@@ -1,13 +1,13 @@
 const { sendSuccess, sendError } = require('../utilities/response.js');
 const pool = require('../db/conn.js');
 const { sendMail } = require('./send-mail.js');
-const jwt  = require("jsonwebtoken")
+const jwt = require("jsonwebtoken")
 
 const createRole = async (req, res) => {
     try {
         const { isReadable, isWritable, isDeletable, isEditable, roleName } = req.body;
         const permissions = `${isReadable ? '1' : '0'}${isWritable ? '1' : '0'}${isDeletable ? '1' : '0'}${isEditable ? '1' : '0'}`;
-  
+
         const { email } = req.user;
 
         const tenantQuery = 'SELECT my_tenant FROM users WHERE email = ?';
@@ -46,7 +46,7 @@ const inviteRole = async (req, res) => {
         if (requester.length === 0) {
             return sendError(res, { msg: 'Requester not found' }, 404);
         }
-        
+
         const tenantId = requester[0].my_tenant;
 
         for (let i = 0; i < emailAndRole.length; i++) {
@@ -73,8 +73,8 @@ const inviteRole = async (req, res) => {
                 const [result] = await pool.query(insertUserQuery, [email, JSON.stringify([tenantId])]);
                 userId = result.insertId;
             }
-            console.log("_________heeee",role_id)
-            await sendMail(email, userId, role_id);  
+            console.log("_________heeee", role_id)
+            await sendMail(email, userId, role_id);
         }
 
         sendSuccess(res, { msg: 'Role invitations sent successfully' }, 200);
@@ -91,12 +91,12 @@ const acceptRequest = async (req, res) => {
         const { token } = req.params;
 
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    
-        if ( !decoded.role_id || !decoded.user_id) {
+
+        if (!decoded.role_id || !decoded.user_id) {
             sendError(res, { msg: "Invalid token" }, 401);
             return;
         }
-         
+
         const updateRoleQuery = 'UPDATE roles SET user_id = ?, status = ? WHERE role_id = ? AND user_id IS NULL';
         const [updateResult] = await pool.query(updateRoleQuery, [decoded.user_id, 'active', decoded.role_id]);
 
@@ -118,4 +118,4 @@ const acceptRequest = async (req, res) => {
 
 
 
-module.exports = { createRole, inviteRole,acceptRequest };
+module.exports = { createRole, inviteRole, acceptRequest };

@@ -3,10 +3,10 @@ const nodemailer = require('nodemailer');
 const ResponseHandler = require('../utilities/response');
 const SECRET_KEY = process.env.SECRET_KEY;
 
-const sendMail = async (email,user_id,role_id) => {
+const sendMail = async (email, user_id, role_id) => {
 
   try {
-    const token = jwt.sign({ email: email, user_id: user_id,role_id:role_id }, SECRET_KEY, { expiresIn: '6h' });
+    const token = jwt.sign({ email: email, user_id: user_id, role_id: role_id }, SECRET_KEY, { expiresIn: '6h' });
 
     const requestLink = `http://localhost:${process.env.PORT}/invite/${user_id}/${token}`;
 
@@ -27,9 +27,9 @@ const sendMail = async (email,user_id,role_id) => {
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        ResponseHandler.sendError( { msg: 'Failed to send email', error: error.message }, 500);
+        ResponseHandler.sendError({ msg: 'Failed to send email', error: error.message }, 500);
       } else {
-        ResponseHandler.sendSuccess( { msg: 'Email sent successfully' }, 200);
+        ResponseHandler.sendSuccess({ msg: 'Email sent successfully' }, 200);
       }
     });
   } catch (error) {
@@ -39,4 +39,4 @@ const sendMail = async (email,user_id,role_id) => {
 
 
 
-module.exports = { sendMail};
+module.exports = { sendMail };

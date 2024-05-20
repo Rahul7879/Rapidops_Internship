@@ -7,7 +7,7 @@ module.exports = {
         role_id INT PRIMARY KEY AUTO_INCREMENT,
         role_name VARCHAR(255) NOT NULL,
         tenant_id int NOT NULL,
-        permissions VARCHAR(10) DEFAULT '1000',
+        permissions VARCHAR(10) DEFAULT '1000', 
         user_id INT,
         folders JSON,
         status VARCHAR(255) DEFAULT 'empty',

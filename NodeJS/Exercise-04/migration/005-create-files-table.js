@@ -7,7 +7,7 @@ module.exports = {
         file_id INT AUTO_INCREMENT PRIMARY KEY,
         folder_id INT,
         name VARCHAR(255) NOT NULL,
-        content LONGBLOB,
+        file_path text,
         FOREIGN KEY (folder_id) REFERENCES folders(folder_id) ON DELETE CASCADE
         );
         `;
