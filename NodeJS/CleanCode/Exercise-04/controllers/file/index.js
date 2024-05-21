@@ -6,5 +6,3 @@ const uploadFile = require('./upload-file.js')
 module.exports = {
  getFile,deleteFile,moveFile,uploadFile
 };
-
-console.log(getFile,deleteFile,moveFile,uploadFile);

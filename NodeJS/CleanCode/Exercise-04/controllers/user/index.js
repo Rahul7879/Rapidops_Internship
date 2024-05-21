@@ -7,5 +7,3 @@ module.exports = {
     loginController,
     loginInTenant
 };
-
-console.log(loginInTenant)

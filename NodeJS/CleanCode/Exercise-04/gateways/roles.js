@@ -4,7 +4,6 @@ const checkUserAccess = async (userId, tenantId)=> {
     const query = 'SELECT role_id, permissions, role_name FROM roles WHERE user_id = ? AND tenant_id = ? LIMIT 1';
     const [users] = await pool.query(query, [userId, tenantId]);
     
-    console.log("workin",users)
     if (users.length === 0) {
         throw { msg: 'User does not have access to this tenant', status: 403 };
     }

@@ -1,6 +1,5 @@
 const { sendMail } = require('../../utilities/send-mail');
 
-
 const inviteRole = async (data, user, roleGateway) => {
     const { emailAndRole } = data;
     const requester = await roleGateway.getUserByEmail(user.email);

@@ -1,27 +1,18 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { validateEmail, validateFullName, validatePassword } = require('../../utilities/validations');
+const User = require('../../entities/user');
 const SECRET_KEY = process.env.SECRET_KEY;
 
 const signupUser = async (userDetails, userGateway) => {
-    const { email, password, fullName } = userDetails;
-
-    if (!validateEmail(email)) {
-        throw { status: 400, msg: 'Invalid email format' };
-    }
-    if (!validatePassword(password)) {
-        throw { status: 400, msg: 'Password must be at least 6 characters long' };
-    }
-    if (!validateFullName(fullName)) {
-        throw { status: 400, msg: 'Full name must not contain numbers' };
-    }
+    
+    const user = User.validate(userDetails);
 
     const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(password, salt);
+    const hashPassword = await bcrypt.hash(user.password, salt);
 
     try {
-        await userGateway.createUser(email, hashPassword, fullName);
-        const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: '1h' });
+        await userGateway.createUser(user.email, hashPassword, user.fullName);
+        const token = jwt.sign({ email: user.email }, SECRET_KEY, { expiresIn: '1h' });
         return { status: 201, msg: 'SignUp successful', token };
     } catch (error) {
         if (error.code === 'ER_DUP_ENTRY') {

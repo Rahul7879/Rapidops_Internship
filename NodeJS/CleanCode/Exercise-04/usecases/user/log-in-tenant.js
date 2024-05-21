@@ -4,8 +4,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 async function loginUserInTenant(params, user, roleGateway) {
     const { tenantId } = params;
     const { email, userId } = user;
-    console.log(roleGateway)
-    console.log(roleGateway.checkUserAccess)
+    
     const userRole = await roleGateway.checkUserAccess(userId, +tenantId);
 
     if (!userRole) {

@@ -1,4 +1,3 @@
-
 const getFile = async (fileId, user, fileGateway) => {
     const { tenantId, permissions, isAdmin, roleId } = user;
     

@@ -1,5 +1,3 @@
-
-
 const moveFile = async (fileId, newFolderId, user, fileGateway) => {
     const { tenantId, permissions, isAdmin, roleId } = user;
 

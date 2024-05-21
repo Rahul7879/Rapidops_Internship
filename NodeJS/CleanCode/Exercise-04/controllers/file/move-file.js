@@ -1,7 +1,6 @@
 const fileUseCases = require('../../usecases/file/index.js');
 const fileGateway = require('../../gateways/files.js');
 const { sendSuccess, sendError } = require('../../utilities/response.js');
-const path = require('path');
 
 const moveFile = async (req, res) => {
     try {

@@ -4,7 +4,6 @@ const { sendSuccess, sendError } = require('../../utilities/response.js');
 
 const createFolder = async (req, res) => {
     try {
-        console.log(folderGateway)
         await folderUseCases.createFolder(req.body, req.user, folderGateway);
         sendSuccess(res, { msg: 'Folder created successfully' }, 201);
     } catch (error) {

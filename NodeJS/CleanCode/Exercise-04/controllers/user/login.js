@@ -5,7 +5,6 @@ const { sendSuccess, sendError } = require('../../utilities/response.js');
 const loginController = async (req, res) => {
     try {
         const response = await loginUser(req.body, userGateway);
-        console.log(process.env.COOKIE_AGE)
         res.setHeader(
             'Set-Cookie',
             `accessToken=${response.token}; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=${process.env.COOKIE_AGE}`

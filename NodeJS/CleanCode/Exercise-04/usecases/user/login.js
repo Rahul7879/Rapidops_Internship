@@ -19,7 +19,6 @@ const loginUser = async (userDetails, userGateway) => {
     if (!match) {
         throw { status: 401, msg: 'Password does not match' };
     }
-    console.log(process.env.SECRET_KEY)
 
     const token = jwt.sign({ userId: user.user_id, email: user.email }, SECRET_KEY, { expiresIn: rememberMe ? "7d" : '1h' });
     return { status: 200, msg: 'Login successful', token, my_tenant: user.my_tenant, added_in: user.added_in };

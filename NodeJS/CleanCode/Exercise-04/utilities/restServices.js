@@ -34,7 +34,6 @@ const handleFormData = async (req, res, method) => {
             }
         }
     } catch (error) {
-        console.log("Error")
         res.writeHead(400);
         res.end("Error parsing request body");
         return;
