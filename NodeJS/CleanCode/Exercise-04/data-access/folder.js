@@ -58,6 +58,30 @@ const getAllFolders = async (tenantId) => {
     return null;
 };
 
+const getFoldersByParentId = async (parentFolderId, limit, offset) => {
+    const query = 'SELECT * FROM folders WHERE parent_folder_id = ? LIMIT ? OFFSET ?';
+    const [result] = await pool.query(query, [parentFolderId, limit, offset]);
+    return result;
+};
+
+const getFilesByFolderId = async (folderId, limit, offset) => {
+    const query = 'SELECT * FROM files WHERE folder_id = ? LIMIT ? OFFSET ?';
+    const [result] = await pool.query(query, [folderId, limit, offset]);
+    return result;
+};
+
+const countFoldersByParentId = async (parentFolderId) => {
+    const query = 'SELECT COUNT(*) AS count FROM folders WHERE parent_folder_id = ?';
+    const [result] = await pool.query(query, [parentFolderId]);
+    return result[0].count;
+};
+
+const countFilesByFolderId = async (folderId) => {
+    const query = 'SELECT COUNT(*) AS count FROM files WHERE folder_id = ?';
+    const [result] = await pool.query(query, [folderId]);
+    return result[0].count;
+};
+
 module.exports = {
     checkParentFolderExists,
     insertFolder,
@@ -66,5 +90,9 @@ module.exports = {
     updateFolderParent,
     assignFoldersToRole,
     getAssignedFolders,
-    getAllFolders
+    getAllFolders,
+    getFoldersByParentId,
+    getFilesByFolderId,
+    countFoldersByParentId,
+    countFilesByFolderId
 };

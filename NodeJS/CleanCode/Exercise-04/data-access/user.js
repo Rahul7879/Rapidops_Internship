@@ -30,8 +30,13 @@ const findUserByEmail = async (email) => {
     return users.length ? users[0] : null;
 };
 
+const updateUserPassword = async (email, newPassword) => {
+    await pool.query('UPDATE users SET password = ? WHERE email = ?', [newPassword, email]);
+}
+
 module.exports = {
     createUser,
     findUserByEmail,
-    checkUserAccess
+    checkUserAccess,
+    updateUserPassword
 };
