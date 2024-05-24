@@ -1,14 +1,13 @@
-const { signupUser } = require('../../usecases/user/index');
-const userGateway = require('../../gateways/user.js');
-const { sendSuccess, sendError } = require('../../utilities/response.js');
-
-const signupController = async (req, res) => {
-    try {
-        const response = await signupUser(req.body, userGateway);
-        sendSuccess(res, { msg: response.msg, token: response.token }, response.status);
-    } catch (error) {
-        sendError(res, { msg: error.msg, error: error.error }, error.status || 500);
-    }
+module.exports = function makeSignupController(userUseCases, sendSuccess, sendError) {
+    return async function signupController(req, res) {
+        try {
+            const response = await userUseCases.signupUser(req.body);
+            sendSuccess(res, { msg: response.msg, token: response.token }, response.status);
+        } catch (error) {
+            sendError(res, { msg: error.msg, error: error.error }, error.status || 500);
+        }
+    };
 };
 
-module.exports = signupController;
+
+

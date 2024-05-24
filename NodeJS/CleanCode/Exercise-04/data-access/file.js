@@ -2,18 +2,18 @@ const pool = require('../db/conn');
 const fs = require('fs');
 const path = require('path');
 
-const checkFileAccess = async (fileId, roleId, tenantId) => {
+const checkFileAccess = async (fileId, roleId) => {
     const query = `
-        SELECT 1 
-        FROM files f
-        JOIN folders fol ON fol.folder_id = f.folder_id
-        JOIN roles r ON r.tenant_id = fol.tenant_id
-        JOIN JSON_TABLE(r.folders, '$[*]' COLUMNS(folders_id INT PATH '$')) jt 
-        ON jt.folders_id = f.folder_id 
-        WHERE f.file_id = ? AND r.role_id = ? AND r.tenant_id = ?`;
-    const [result] = await pool.query(query, [fileId, roleId, tenantId]);
+    SELECT 1 
+    FROM files f
+    JOIN folders fol ON fol.folder_id = f.folder_id
+    JOIN roles r ON JSON_CONTAINS(r.folders, CAST(fol.folder_id AS JSON), '$')
+    WHERE f.file_id = ? AND r.role_id = ?`;
+    const [result] = await pool.query(query, [fileId, roleId]);
     return result.length > 0;
 };
+
+
 
 const insertFile = async (folderId, fileName, filePath) => {
     const query = 'INSERT INTO files (folder_id, name, file_path) VALUES (?, ?, ?)';

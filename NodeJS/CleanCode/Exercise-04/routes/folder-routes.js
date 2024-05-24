@@ -1,13 +1,14 @@
-const {createFolder,getAllFolders,assignFoldersToRole,getAllAssignedFolders, deleteFolder,moveFolder} = require('../controllers/folder/index.js');
+const {folderActions} = require('../controllers');
 const verifyUser = require('../middlewares/validate-user.js');
 
+
 function setupRoutes(router) {
-    router._post('/folder', verifyUser, createFolder );
-    router._get('/tenant/:tenant_id',verifyUser,getAllFolders)
-    router._post('/tenant/assign/:roleId',verifyUser,assignFoldersToRole)
-    router._post('/tenant/:tenant_id/:role_id/assigned-folders',verifyUser,getAllAssignedFolders)
-    router._delete('/folder/:folderId',verifyUser,deleteFolder)
-    router._patch('/folder/:folderId',verifyUser,moveFolder)
+    router._post('/folder', verifyUser, folderActions.createFolderAction );
+    router._get('/tenant/:tenant_id',verifyUser,folderActions.getAllFolders)
+    router._post('/tenant/assign/:roleId',verifyUser,folderActions.assignFoldersToRoleAction)
+    router._post('/tenant/:tenant_id/:role_id/assigned-folders',verifyUser,folderActions.getAllAssignedFoldersAction)
+    router._delete('/folder/:folderId',verifyUser,folderActions.deleteFolderAction)
+    router._patch('/folder/:folderId',verifyUser,folderActions.moveFolderAction)
 }
 
 module.exports = setupRoutes;

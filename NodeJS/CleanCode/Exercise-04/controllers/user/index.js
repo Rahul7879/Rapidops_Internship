@@ -1,9 +1,18 @@
-const signupController = require('./signup.js');
-const loginController = require('./login.js');
-const loginInTenant = require('./login-in-tenant.js')
+const {userUseCases} = require('../../usecases');
+const { sendSuccess, sendError } = require('../../utilities/response.js');
 
-module.exports = {
-    signupController,
-    loginController,
-    loginInTenant
-};
+const makeSignupControllerAction = require('./signup.js');
+const makeLoginControllerAction = require('./login.js');
+const makeLoginInTenantAction = require('./login-in-tenant.js')
+
+
+
+const signupControllerAction = makeSignupControllerAction(userUseCases,sendSuccess,sendError)
+const loginControllerAction = makeLoginControllerAction(userUseCases,sendSuccess,sendError)
+const loginInTenantAction = makeLoginInTenantAction(userUseCases,sendSuccess,sendError)
+
+module.exports = Object.freeze({
+    signupControllerAction,
+    loginControllerAction,
+    loginInTenantAction
+});

@@ -1,11 +1,11 @@
-const {uploadFile, moveFile, deleteFile,getFile} = require('../controllers/file/index.js');
+const {fileActions} = require('../controllers');
 const verifyUser = require('../middlewares/validate-user.js');
 
 function setupRoutes(router) {
-    router._post('/file', verifyUser, uploadFile );
-    router._get('/file/:fileId', verifyUser, getFile);
-    router._patch('/file/:fileId', verifyUser, moveFile );
-    router._delete('/file/:fileId', verifyUser, deleteFile );
+    router._post('/file', verifyUser, fileActions.uploadFileAction );
+    router._get('/file/:fileId', verifyUser, fileActions.getFileAction);
+    router._patch('/file/:fileId', verifyUser, fileActions.moveFileAction );
+    router._delete('/file/:fileId', verifyUser, fileActions.deleteFileAction );
 }
 
 module.exports = setupRoutes;

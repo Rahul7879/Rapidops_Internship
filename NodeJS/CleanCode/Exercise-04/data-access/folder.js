@@ -43,6 +43,21 @@ const getAssignedFolders = async (roleId, tenantId) => {
     return result.length > 0 ? result[0].folders : null;
 };
 
+const getAllFolders = async (tenantId) => {
+    const query = 'SELECT folder_id FROM folders WHERE tenant_id = ?';
+    const [result] = await pool.query(query, [ tenantId]);
+ 
+    if(result.length > 0){
+        const resultArray = [];
+       result.forEach((folder)=>{
+         resultArray.push(folder.folder_id)
+       })
+       return resultArray
+    }
+
+    return null;
+};
+
 module.exports = {
     checkParentFolderExists,
     insertFolder,
@@ -51,4 +66,5 @@ module.exports = {
     updateFolderParent,
     assignFoldersToRole,
     getAssignedFolders,
+    getAllFolders
 };

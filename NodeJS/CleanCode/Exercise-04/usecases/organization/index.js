@@ -1,15 +1,9 @@
-const Organization = require('../../entities/organization');
-const { createOrganization, checkExistingOrganization } = require('../../gateways/organization');
+const {tenantDBCalls} = require('../../data-access');
 
-const createOrganizationForUser = async (userId, orgName) => {
-    const organization = Organization.validate({ name: orgName, adminId: userId });
+const makeCreateTenant = require('./create-tenant');
 
-    const exists = await checkExistingOrganization(userId);
-    if (exists) {
-        throw { status: 409, msg: 'Organization already created for this user' };
-    }
+const createTenant = makeCreateTenant(tenantDBCalls);
 
-    await createOrganization(organization.name, organization.adminId);
-};
-
-module.exports = createOrganizationForUser;
+module.exports = Object.freeze({
+    createTenant
+});
