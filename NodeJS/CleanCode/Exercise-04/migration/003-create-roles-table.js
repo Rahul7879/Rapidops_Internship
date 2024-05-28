@@ -9,6 +9,8 @@ module.exports = {
         tenant_id int NOT NULL,
         permissions VARCHAR(10) DEFAULT '1000', 
         user_id INT,
+        temp_user INT,
+        temp_user_expiry DATETIME,
         folders JSON,
         status VARCHAR(255) DEFAULT 'empty',
         FOREIGN KEY (tenant_id) REFERENCES organizations(tenant_id)
@@ -22,3 +24,6 @@ module.exports = {
     await queryInterface.sequelize.query('DROP TABLE IF EXISTS users_table;');
   },
 };
+
+
+

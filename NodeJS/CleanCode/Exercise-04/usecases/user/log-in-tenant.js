@@ -15,7 +15,9 @@ module.exports = function makeLoginUser(UserDBCalls,jwt,SECRET_KEY) {
             tenantId: +tenantId,
             permissions: userRole.permissions,
             isAdmin: userRole.isAdmin,
-            roleId: userRole.roleId
+            roleId: userRole.roleId,
+            isTempUser:userRole.isTempUser || false,
+            tempUserExpiry: userRole.tempUserExpiry || null
         }, SECRET_KEY, { expiresIn: '1h' });
     
         return { token, tenantId: +tenantId };

@@ -65,6 +65,33 @@ const updateRoleUser = async (userId, roleId) => {
     return result.affectedRows;
 };
 
+const updateRoleWithTempUser = async (tempUserId, tempUserExpiry, roleId, tenantId) => {
+    console.log(tempUserId, tempUserExpiry, roleId, tenantId,"Comon")
+    const query = `
+        UPDATE roles 
+        SET temp_user = ?, temp_user_expiry = ? 
+        WHERE role_id = ? AND tenant_id = ?`;
+
+    await pool.query(query, [tempUserId, tempUserExpiry, roleId, tenantId]);
+};
+
+async function getTempUserId(tempUserEmail, tenantId) {
+    let [user] = await pool.query('SELECT user_id FROM users WHERE email = ?', [tempUserEmail]);
+    let tempUserId;
+    console.log(user,"not",tempUserEmail,tenantId)
+
+    if (user.length === 0) {
+        const result = await pool.query('INSERT INTO users (email,added_in) VALUES (?, ?)', [tempUserEmail, JSON.stringify[tenantId]]);
+        console.log(result,"____")
+        tempUserId = result[0].insertId; 
+    } else {
+        tempUserId = user[0].user_id;
+    }
+
+    return tempUserId;
+}
+
+
 module.exports = {
     createRole,
     getTenantIdByEmail,
@@ -74,6 +101,8 @@ module.exports = {
     insertUser,
     updateAddedIn,
     updateRoleUser,
-    checkUserAccess
+    checkUserAccess,
+    updateRoleWithTempUser,
+    getTempUserId
 };
 
