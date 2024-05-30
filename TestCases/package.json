@@ -1,10 +1,21 @@
 {
-  "type": "commonjs",
-  "scripts": {
-    "test": "mocha"
-  },
   "devDependencies": {
     "chai": "^4.3.6",
-    "mocha": "^10.4.0"
+    "mocha": "^10.4.0",
+    "nock": "^13.5.4",
+    "sinon": "^14.0.0"
+  },
+  "name": "test-cases",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc mocha"
+  },
+  "author": "rahul singh rajput",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "nyc": "^15.1.0"
   }
 }
