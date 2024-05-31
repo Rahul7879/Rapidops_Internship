@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cucumber",
     "start": "nodemon index.js"
   },
   "author": "Rahul Singh Rajput",
@@ -23,5 +23,13 @@
     "sequelize": "^6.37.3",
     "umzug": "^3.8.0",
     "url": "^0.11.3"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.8.0",
+    "chai": "^4.3.6",
+    "chai-http": "^4.4.0",
+    "cucumber": "^6.0.7",
+    "mocha": "^10.4.0",
+    "sinon": "^14.0.0"
   }
 }
