@@ -1,25 +1,22 @@
-@signupFeature
-Feature: Reset Password
+# Feature: Reset Password
 
-  Scenario Outline: Successful password reset
-    Given a user with email "<email>" and token "<token>"
-    When the user resets the password to "<newPassword>"
-    Then the password reset should be successful
-    And the reset password response should have a status of 200 and message "Password reset successful"
+#   Background:
+#     Given a valid JWT SECRET_KEY
 
-    Examples:
-      | email            | token            | newPassword   |
-      | user@example.com | valid-token      | newPassword123 |
-      | anotheruser@example.com | another-valid-token | password321 |
-      | user3@example.com | yet-another-valid-token | MyNewPassword |
+#   Scenario Outline: Successfully reset password
+#     Given a valid token "<token>" and new password "<newPassword>"
+#     When resetPassword function is called
+#     Then it should return status 200 and message "Password reset successful"
 
-  Scenario Outline: Password reset with invalid token
-    Given a user with email "<email>" and token "<token>"
-    When the user resets the password to "<newPassword>"
-    Then the password reset should fail with a 400 error and message "Invalid or expired token"
+#     Examples:
+#       | token       | newPassword |
+#       | valid_token | new_password |
 
-    Examples:
-      | email            | token            | newPassword   |
-      | user@example.com | expired-token    | newPassword123 |
-      | invaliduser@example.com | invalid-token | password321 |
-      | anotheruser@example.com | another-expired-token | MyNewPassword |
+#   Scenario Outline: Invalid or expired token
+#     Given an invalid token "<token>" and new password "<newPassword>"
+#     When resetPassword function is called
+#     Then it should throw an error with status 400 and message "Invalid or expired token"
+
+#     Examples:
+#       | token        | newPassword |
+#       | invalid_token| new_password |

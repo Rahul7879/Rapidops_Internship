@@ -88,7 +88,6 @@ When('try to get folder contents', async function () {
 });
 
 Then('It should return folders: {string}, files: {string}, totalItems: {string}, totalPages: {string}, currentPage: {string}, pageSize: {string}', function (folders, files, totalItems, totalPages, currentPage, pageSize) {
-   console.log(this.result,"____________",folders, files, totalItems, totalPages, currentPage, pageSize)  
   expect(this.result).to.have.property('folders').that.deep.equals(JSON.parse(folders));
     expect(this.result).to.have.property('files').that.deep.equals(JSON.parse(files));
     expect(this.result).to.have.property('totalItems').that.equals(parseInt(totalItems, 10));

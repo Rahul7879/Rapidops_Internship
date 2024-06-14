@@ -24,7 +24,6 @@ module.exports = function makeApproveTempRole(
             html: message
         });
 
-        // await sendEmail(tempUserEmail, 'Temporary Role Approved', message);
     }
     
 };

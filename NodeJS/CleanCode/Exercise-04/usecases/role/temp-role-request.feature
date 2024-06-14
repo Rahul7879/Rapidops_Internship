@@ -1,24 +1,17 @@
-@roletjjj
-Feature: Request Temporary Role
+Feature: Use case to request temporary role for a user
 
-  Scenario Outline: Successfully send role approval request email to tenant admin
-    Given the admin email for tenant with ID "<tenantId>" is "<adminEmail>"
-    When the user with email "<email>" requests to assign temporary role with ID "<roleId>" to "<tempUserEmail>" for hours
-    Then an email should be sent to "<adminEmail>" with an approval link
-
+  Scenario Outline: User should successfully request a temporary role
+    Given email: '<email>', tenantId: '<tenantId>', userId: '<userId>', roleId: '<roleId>', tempUserEmail: '<tempUserEmail>', hours: '<hours>' request temporary role usecase
+    When try to request a temporary role
+    Then It should send an approval email to the admin and return success message: '<result>'
     Examples:
-      | tenantId | adminEmail               | email                | roleId | tempUserEmail       | hours |
-    
-      | tenant1  | admin1@example.com       | user1@example.com    | role1  | tempuser1@example.com | 4     |
-    #  | tenant2  | admin2@example.com       | user2@example.com    | role2  | tempuser2@example.com | 6     |
+      | email                    | tenantId     | userId                             | roleId | tempUserEmail             | hours | result                     |
+      | user@example.com         | tenant123    | userId123                          | role1  | tempuser@example.com      | 24    | Temporary role requested   |
 
-  Scenario Outline: Throw error when admin email is not found
-    Given the admin email for tenant with ID "<tenantId>" is not found
-    When the user with email "<email>" requests to assign temporary role with ID "<roleId>" to "<tempUserEmail>" for "<hours>" hours
-    Then it should return the error "Admin not found for this tenant"
-
+  Scenario Outline: It should throw an error for temporary role request
+    Given email: '<email>', tenantId: '<tenantId>', userId: '<userId>', roleId: '<roleId>', tempUserEmail: '<tempUserEmail>', hours: '<hours>' request temporary role usecase
+    When try to request a temporary role
+    Then It should return the error: '<error>' for temporary role request
     Examples:
-    #  | tenantId | email                   | roleId | tempUserEmail       | hours |
-    #  | tenant1  | user1@example.com       | role1  | tempuser1@example.com | 4     |
-    #  | tenant2  | user2@example.com       | role2  | tempuser2@example.com | 6     |
-
+       | email                    | tenantId     | userId                             | roleId | tempUserEmail             | hours | error                                |
+       | user@example.com         | tenant456    | userId123                          | role1  | tempuser@example.com      | 24    | Error: Admin not found for this tenant|

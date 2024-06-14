@@ -25,7 +25,6 @@ Given('a tenant with id {string}', function (tenantId) {
 When('the user attempts to login to the tenant', async function () {
     const loginUserInTenant = makeLoginUser(userDBCalls, jwt, SECRET_KEY);
 
-    // Mocking userDBCalls.checkUserAccess
     if (params.tenantId === 'tenant2') {
         sandbox.stub(userDBCalls, 'checkUserAccess').resolves(null);
     } else {

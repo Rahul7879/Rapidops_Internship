@@ -1,84 +1,79 @@
-const { Given, When, Then, After } = require('@cucumber/cucumber');
 const { expect } = require('chai');
+const { Given, When, Then, Before, After } = require('@cucumber/cucumber');
 const sinon = require('sinon');
 const makeCreateTenant = require('./create-tenant');
 
-const sandbox = sinon.createSandbox();
-
 const tenantDBCalls = {
-  fetchUserIdByEmail: sandbox.stub(),
-  checkExistingOrganization: sandbox.stub(),
-  createOrganization: sandbox.stub(),
-  setTenantForUser: sandbox.stub(),
-  createAdminRole: sandbox.stub()
+  fetchUserIdByEmail: () => { },
+  checkExistingOrganization: () => { },
+  createOrganization: () => { },
+  setTenantForUser: () => { },
+  createAdminRole: () => { }
 };
 
-const createTenant = makeCreateTenant(tenantDBCalls);
+let fetchUserIdByEmailStub;
+let checkExistingOrganizationStub;
+let createOrganizationStub;
+let setTenantForUserStub;
+let createAdminRoleStub;
+let orgName; 
 
-let email;
-let orgName;
-let userId;
-let newOrgId;
-let response;
-let error;
+Before(() => {
+  fetchUserIdByEmailStub = sinon.stub(tenantDBCalls, 'fetchUserIdByEmail');
+  checkExistingOrganizationStub = sinon.stub(tenantDBCalls, 'checkExistingOrganization');
+  createOrganizationStub = sinon.stub(tenantDBCalls, 'createOrganization');
+  setTenantForUserStub = sinon.stub(tenantDBCalls, 'setTenantForUser');
+  createAdminRoleStub = sinon.stub(tenantDBCalls, 'createAdminRole');
 
-Given('a valid email {string} and organization name {string}', function (emailValue, orgNameValue) {
-  email = emailValue;
-  orgName = orgNameValue;
-});
+  fetchUserIdByEmailStub.callsFake(async (email) => {
+    if (email === 'user@example.com') {
+      return 'userId-123';
+    }
+    throw { msg: 'User not found', status: 404 };
+  });
 
-When('createTenant is called with the email and organization name', async function () {
-  userId = 'userId123';
-  newOrgId = 'newOrgId456';
+  checkExistingOrganizationStub.callsFake(async (userId) => {
+    console.log(userId, orgName);
+    if (orgName === 'Existing Org' && userId === 'userId-123') {
+      return true;
+    }
+    return false;
+  });
 
-  if (email === 'nonexisting@example.com') {
-    tenantDBCalls.fetchUserIdByEmail.withArgs(email).resolves(null);
-  } else if (email === 'user@example.com' && orgName === 'DuplicateOrg') {
-    tenantDBCalls.fetchUserIdByEmail.withArgs(email).resolves(userId);
-    tenantDBCalls.checkExistingOrganization.withArgs(userId).resolves(true);
-  } else {
-    tenantDBCalls.fetchUserIdByEmail.withArgs(email).resolves(userId);
-    tenantDBCalls.checkExistingOrganization.withArgs(userId).resolves(false);
-    tenantDBCalls.createOrganization.withArgs(userId, orgName).resolves(newOrgId);
-    tenantDBCalls.setTenantForUser.withArgs(userId, newOrgId).resolves();
-    tenantDBCalls.createAdminRole.withArgs(userId, newOrgId).resolves();
-  }
+  createOrganizationStub.callsFake(async (userId, orgName) => 'org1');
 
-  try {
-    response = await createTenant(email, orgName);
-  } catch (err) {
-    error = err;
-  }
-});
+  setTenantForUserStub.callsFake(async (userId, orgId) => { });
 
-Then('ensure fetchUserIdByEmail is called with the email', function () {
-  expect(tenantDBCalls.fetchUserIdByEmail.calledWith(email)).to.be.true;
-});
-
-Then('ensure checkExistingOrganization is called with the fetched userId', function () {
-  expect(tenantDBCalls.checkExistingOrganization.calledWith(userId)).to.be.true;
-});
-
-Then('ensure createOrganization is called with the fetched userId and organization name', function () {
-  expect(tenantDBCalls.createOrganization.calledWith(userId, orgName)).to.be.true;
-});
-
-Then('ensure setTenantForUser is called with the fetched userId and new organization id', function () {
-  expect(tenantDBCalls.setTenantForUser.calledWith(userId, newOrgId)).to.be.true;
-});
-
-Then('ensure createAdminRole is called with the fetched userId and new organization id', function () {
-  expect(tenantDBCalls.createAdminRole.calledWith(userId, newOrgId)).to.be.true;
-});
-
-Then('the function returns the new organization id', function () {
-  expect(response).to.equal(newOrgId);
-});
-
-Then('the function throws an error with message {string} and status {int}', function (msg, status) {
-  expect(error).to.deep.equal({ msg, status });
+  createAdminRoleStub.callsFake(async (userId, orgId) => { });
 });
 
 After(() => {
-  sandbox.restore();
+  sinon.restore();
 });
+
+Given('email: {string}, orgName: {string} for create tenant usecase', function (email, orgNameParam) {
+  this.email = email;
+  orgName = orgNameParam; 
+  console.log(orgName, "orgName");
+});
+
+When('try to create tenant', async function () {
+  const createTenant = makeCreateTenant(tenantDBCalls);
+  try {
+    this.result = await createTenant(this.email, orgName);
+  } catch (error) {
+    this.error = error;
+  }
+});
+
+Then('It should return the organization ID: {string} after creating tenant', function (orgId) {
+  expect(this.result).to.equal(orgId);
+});
+
+Then('It should return the error: {string} for creating tenant', function (error) {
+  const [errorMsg, errorCode] = error.split(' (');
+  const statusCode = parseInt(errorCode.replace(')', ''), 10);
+  expect(this.error.msg).to.equal(errorMsg);
+  expect(this.error.status).to.equal(statusCode);
+});
+

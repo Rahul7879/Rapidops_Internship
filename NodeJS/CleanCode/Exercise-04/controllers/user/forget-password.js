@@ -1,7 +1,7 @@
 module.exports = function makeForgotPasswordController(userUseCases, sendSuccess, sendError) {
     return async function forgotPasswordController(req, res) {
         try {
-            console.log(req.body,"body",userUseCases)
+  
             const response = await userUseCases.forgotPassword(req.body);
             sendSuccess(res, { msg: response.msg }, response.status);
         } catch (error) {

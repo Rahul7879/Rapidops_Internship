@@ -1,22 +1,18 @@
-@roleInvite
-Feature: Use case to invite Roles
+Feature: Invite Role Use Case
 
-  Scenario Outline: Invite existing and new users
-    Given email and roles: '<emailAndRoles>'
-    And requester email: '<requesterEmail>'
-    When try to invite role
-    Then It should return a success message: '<message>'
-
+  Scenario Outline: Successfully invite roles
+    Given data with emailAndRole: '<emailAndRole>' and user email: '<userEmail>'
+    When try to invite roles
+    Then It should send emails to the specified users
     Examples:
-      | emailAndRoles                                            | requesterEmail          | message                    |
-      | [{"email":"existing_user@example.com","role_id":"role1"},{"email":"new_user@example.com","role_id":"role2"}] | requester@example.com | Invitations sent successfully |
+      | emailAndRole                                      | userEmail           |
+      | [{"email": "user1@example.com", "role_id": "1"}]  | admin@example.com   |
+      | [{"email": "user2@example.com", "role_id": "2"}]  | admin@example.com   |
 
-  Scenario Outline: It should throw error for role invitation
-    Given email and roles: '<emailAndRoles>'
-    And requester email: '<requesterEmail>'
-    When try to invite role
+  Scenario Outline: Requester not found
+    Given data with emailAndRole: '<emailAndRole>' and user email: '<userEmail>'
+    When try to invite roles
     Then It should return the error: '<error>'
-
     Examples:
-      | emailAndRoles                                            | requesterEmail          | error                   |
-      | [{"email":"non_existent_user@example.com","role_id":"role1"}] | requester@example.com | Requester not found     |
+      | emailAndRole                                     | userEmail           | error                           |
+      | [{"email": "user3@example.com", "role_id": "3"}] | unknown@example.com | Requester not found (404)       |

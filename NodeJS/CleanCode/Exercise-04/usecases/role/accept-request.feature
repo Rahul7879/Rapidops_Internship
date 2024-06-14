@@ -13,7 +13,7 @@ Feature: Use case to accept Roles with token
   Scenario Outline: It should throw error for role acceptance
     Given a token: '<token>'
     When try to accept role
-    Then It should return the error: '<error>'
+    Then It should return the error: '<error>' for accept request
 
     Examples:
       | token                          | error                                           |

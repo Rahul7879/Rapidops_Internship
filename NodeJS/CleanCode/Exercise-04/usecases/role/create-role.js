@@ -9,7 +9,6 @@ module.exports = function makeCreateRole(RoleDBCalls) {
             throw { msg: 'No tenant ID found for user', status: 400 };
         }
         const isExists = await RoleDBCalls.checkRoleExists(tenantId, role.roleName);
-        console.log(isExists,"Status")
         if (isExists) {
             throw { msg: `Role already exists in tenant ${tenantId}`, status: 409 };
         }

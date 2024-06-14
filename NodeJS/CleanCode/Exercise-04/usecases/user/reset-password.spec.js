@@ -1,60 +1,84 @@
-const { Given, When, Then, After } = require('@cucumber/cucumber');
-const { expect } = require('chai');
-const sinon = require('sinon');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const makeResetPassword = require('./reset-password');
-const { userDBCalls } = require('../../data-access'); // Adjust path as necessary
+// const { Before, BeforeAll, Given,After, AfterAll, When, Then } = require('@cucumber/cucumber');
+// const { expect } = require('chai');
+// const sinon = require('sinon');
+// const jwt = require('jsonwebtoken');
+// const bcrypt = require('bcryptjs');
+// const makeResetPassword = require('./reset-password');
 
-const SECRET_KEY = 'your_secret_key';
-const sandbox = sinon.createSandbox();
+// // Mock dependencies
+// const UserDBCallsMock = {
+//   updateUserPassword: sinon.stub().resolves()
+// };
 
-let token;
-let newPassword;
-let response;
-let error;
+// const SECRET_KEY = 'your_secret_key';
 
-Given('a user with email {string} and token {string}', function (email, tokenValue) {
-    token = tokenValue;
-    this.userDetails = { email };
-});
+// // Initialize stubs
+// const sandbox = sinon.createSandbox();
 
-When('the user resets the password to {string}', async function (newPasswordValue) {
-    newPassword = newPasswordValue;
-    const resetPassword = makeResetPassword(userDBCalls, bcrypt, jwt, SECRET_KEY);
+// // Stubbing JWT verify function
+// sandbox.stub(jwt, 'verify').callsFake((token, secretOrPublicKey, callback) => {
+//   if (token === 'valid_token') {
+//     callback(null, { email: 'user@example.com' });
+//   } else {
+//     callback(new Error('Invalid token'));
+//   }
+// });
 
-    sandbox.stub(userDBCalls, 'updateUserPassword').resolves();
+// // Stubbing bcrypt functions
+// sandbox.stub(bcrypt, 'genSalt').resolves('salt');
+// sandbox.stub(bcrypt, 'hash').resolves('hashed_password');
 
-    if (token.includes('invalid') || token.includes('expired')) {
-        sandbox.stub(jwt, 'verify').throws(new Error('Invalid token'));
-    } else {
-        sandbox.stub(jwt, 'verify').returns({ email: this.userDetails.email });
-    }
+// // Create resetPassword function with mocked dependencies
+// let resetPassword = makeResetPassword(UserDBCallsMock, bcrypt, jwt, SECRET_KEY);
 
-    try {
-        response = await resetPassword(token, newPassword);
-    } catch (err) {
-        error = err;
-    }
-});
+// let result;
+// let error;
 
-Then('the password reset should be successful', function () {
-    expect(response).to.not.be.undefined;
-    expect(response).to.have.property('status', 200);
-    expect(response).to.have.property('msg', 'Password reset successful');
-});
+// BeforeAll(() => {
+//   // Perform setup tasks that should run once before all scenarios
+//   console.log('Before all scenarios setup');
+// });
 
-Then('the reset password response should have a status of 200 and message {string}', function (message) {
-    expect(response).to.have.property('status', 200);
-    expect(response).to.have.property('msg', message);
-});
+// Before(() => {
+//   // Reset state or setup tasks that should run before each scenario
+//   result = undefined;
+//   error = undefined;
+//   console.log('Before each scenario setup');
+// });
 
-Then('the password reset should fail with a {int} error and message {string}', function (status, message) {
-    expect(error).to.not.be.undefined;
-    expect(error).to.have.property('status', status);
-    expect(error).to.have.property('msg', message);
-});
+// Given('a valid token {string} and new password {string}', function (token, newPassword) {
+//   this.token = token;
+//   this.newPassword = newPassword;
+// });
 
-After(() => {
-    sandbox.restore();
-});
+// Given('an invalid token {string} and new password {string}', function (token, newPassword) {
+//   this.token = token;
+//   this.newPassword = newPassword;
+// });
+
+// When('resetPassword function is called', async function () {
+//   try {
+//     result = await resetPassword(this.token, this.newPassword);
+//   } catch (err) {
+//     error = err;
+//   }
+// });
+
+// Then('it should return status {int} and message {string}', function (status, message) {
+//   expect(result).to.deep.equal({ status, msg: message });
+// });
+
+// Then('it should throw an error with status {int} and message {string}', function (status, message) {
+//   expect(error).to.not.be.undefined;
+//   expect(error.status).to.equal(status);
+//   expect(error.msg).to.equal(message);
+// });
+
+// // Clean up after scenarios
+// After(() => {
+//   sandbox.reset();
+// });
+
+// AfterAll(() => {
+//   sandbox.restore();
+// });

@@ -38,14 +38,13 @@ Given('user: {string} get all assigned folders usecase', function (user) {
 When('try to get all assigned folders', async function () {
   try {
     this.result = await getAllAssignedFolders(this.user);
-    console.log(await getAllAssignedFolders(this.user));
+
   } catch (error) {
     this.error = error;
   }
 });
 
 Then('It should return the result: {string} after fetching all folder', function (result) {
-  console.log({err: this.error, result})
   expect(JSON.stringify(this.result)).to.equal(result);
 });
 

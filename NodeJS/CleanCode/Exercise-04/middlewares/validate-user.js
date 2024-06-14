@@ -23,7 +23,7 @@ const verifyUser = (req, res, next) => {
                 ResponseHandler.sendError(res, { msg: "Temporary access has expired" }, 403);
                 return;
             }
-            console.log("Checked")
+
         }
 
         next();

@@ -6,7 +6,9 @@ module.exports = function makeCreateTenant(tenantDBCalls) {
         }
 
         const exists = await tenantDBCalls.checkExistingOrganization(userId);
+        console.log(exists)
         if (exists) {
+            
             throw { msg: 'Organization already created for this user', status: 409 };
             // throw new Error("Organization already created for this user",409);
         }

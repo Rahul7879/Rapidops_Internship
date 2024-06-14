@@ -61,7 +61,6 @@ Then('It should return a success message: {string} after role creation', functio
 });
 
 Then('It should return the error: {string} for role creation', function (error) {
-    console.log(this.error,"hh")
   expect(this.error.msg).to.equal(error.split(': ')[1].trim());
 });
 
@@ -74,9 +73,8 @@ Before(() => {
   });
 
   checkRoleExistsStub.callsFake((tenantId, roleName) => {
-    console.log("________ASDGSDGA_______________",tenantId,roleName)
+
     if (roleName === 'duplicateRole' && tenantId === 'tenantId') {
-        console.log("OKKKKKKA")
       return true;
     }
     return false;
