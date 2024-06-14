@@ -1,13 +1,13 @@
-const {User} = require('../../entities');
+const { User } = require('../../entities');
 
-module.exports = function makeSignUpUser(UserDBCalls,bcrypt,jwt,SECRET_KEY) {
-    return async function signupUser (userDetails){
-        const user = User.validate(userDetails);
 
-        const salt = await bcrypt.genSalt(10);
-        const hashPassword = await bcrypt.hash(user.password, salt);
-    
+module.exports = function makeSignUpUser(UserDBCalls, bcrypt, jwt, SECRET_KEY) {
+    return async function signupUser(userDetails) {
         try {
+            const user = User.validate(userDetails);
+
+            const salt = await bcrypt.genSalt(10);
+            const hashPassword = await bcrypt.hash(user.password, salt);
             await UserDBCalls.createUser(user.email, hashPassword, user.fullName);
             const token = jwt.sign({ email: user.email }, SECRET_KEY, { expiresIn: '1h' });
             return { status: 201, msg: 'SignUp successful', token };
@@ -19,5 +19,5 @@ module.exports = function makeSignUpUser(UserDBCalls,bcrypt,jwt,SECRET_KEY) {
             }
         }
     };
-    
+
 };

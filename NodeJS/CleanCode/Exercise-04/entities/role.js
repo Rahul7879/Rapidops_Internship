@@ -11,6 +11,7 @@ class Role {
     }
 
     static validate(roleDetails) {
+        console.log(roleDetails,"roledata")
         const roleSchema = Joi.object({
             isReadable: Joi.boolean().required(),
             isWritable: Joi.boolean().required(),

@@ -15,12 +15,11 @@ module.exports = function makeUploadFile(FileDBCalls,path){
     }
 
     const { tenantId, permissions, isAdmin } = user;
-
+  
     if (!checkPermission(permissions, 1, isAdmin)) { // 1 indicates the "create" permission
         FileDBCalls.deleteFileFromFileSystem(files.file[0].path);
         throw { msg: 'Insufficient permissions', status: 403 };
     }
-
     const newFilename = File.generateNewFilename(files.file[0].originalFilename);
     const newPath = path.join('uploads', newFilename);
 

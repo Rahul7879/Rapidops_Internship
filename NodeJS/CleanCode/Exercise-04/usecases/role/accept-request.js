@@ -1,5 +1,5 @@
-module.exports = function makeCreateRole(RoleDBCalls,jwt) {
-    return async function createRole (token){
+module.exports = function makeAcceptRole(RoleDBCalls,jwt) {
+    return async function acceptRole (token){
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
     if (!decoded.role_id || !decoded.user_id) {

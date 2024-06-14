@@ -1,7 +1,7 @@
 module.exports = function makeGetFile(FileDBCalls) {
     return async function getFile(fileId, user) {
         const { tenantId, permissions, isAdmin, roleId } = user;
-
+      
         if (!fileId) {
             throw { msg: 'File ID is required', status: 400 };
         }

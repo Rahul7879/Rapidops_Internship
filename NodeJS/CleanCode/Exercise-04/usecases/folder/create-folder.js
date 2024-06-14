@@ -5,7 +5,7 @@ module.exports = function makeCreateFolder(FolderDBCalls) {
         const folder = Folder.validate(data);
 
         const { tenantId, permissions } = user;
-        if (!checkPermission(permissions, 1, false)) { // 1 indicates the "create" permission
+        if (!checkPermission(permissions, 1, false)) { 
             throw { msg: 'Insufficient permissions to create folder', status: 403 };
         }
     
@@ -17,9 +17,6 @@ module.exports = function makeCreateFolder(FolderDBCalls) {
     };
     
 };
-
-
-
 const checkPermission = (permissions, actionIndex, isAdmin) => {
     if (isAdmin) return true; // Admins have all permissions
     return permissions[actionIndex] === '1';

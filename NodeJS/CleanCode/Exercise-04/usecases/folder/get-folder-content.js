@@ -1,3 +1,4 @@
+
 module.exports = function makeGetFolderContents(FolderDBCalls) {
     return async function getFolderContents(folderId, user, page, pageSize) {
         const { tenantId, permissions, isAdmin, roleId } = user;

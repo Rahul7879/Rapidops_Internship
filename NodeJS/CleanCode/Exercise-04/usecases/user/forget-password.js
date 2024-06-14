@@ -1,6 +1,6 @@
 module.exports = function makeForgotPassword(UserDBCalls, jwt, SECRET_KEY, mailer) {
     return async function forgotPassword(userDetails) {
-        console.log("email")
+   
         const { email } = userDetails;
 
         const user = await UserDBCalls.findUserByEmail(email);

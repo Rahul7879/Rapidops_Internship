@@ -1,5 +1,5 @@
-module.exports = function makeGetFile(FileDBCalls) {
-    return async function moveFile (fileId, user){
+module.exports = function makeDeleteFile(FileDBCalls) {
+    return async function deleteFile (fileId, user){
         const { tenantId, permissions, isAdmin, roleId } = user;
 
         if (!fileId) {
